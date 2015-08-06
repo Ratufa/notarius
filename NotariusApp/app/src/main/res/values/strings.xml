@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Notarius</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="register_workout">Register a workout</string>
+    <string name="older_text">Older</string>
+    <string name="today_text">Today</string>
+    <string name="see_history">See workout history</string>
+    <string name="choose_workout">Choose workout type</string>
+    <string name="cycling">Cycling</string>
+    <string name="running">Running</string>
+    <string name="weights">Weights</string>
+    <string name="set_workout">Set workout details</string>
+    <string name="duration_text">Duration</string>
+    <string name="effort_text">Effort</string>
+    <string name="save_history">Save &amp; history</string>
+    <string name="save_exit">Save &amp; exit</string>
+    <string name="work_out_history">Workout history</string>
+    <string name="register">Register workout</string>
+    <string name="settings">Settings</string>
+    <string name="notifications">Notifications</string>
+    <string name="notification_on_off">Notifications on/off</string>
+    <string name="frequency">Frequency</string>
+</resources>
