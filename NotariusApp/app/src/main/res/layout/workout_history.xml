@@ -3,33 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#9FC5F8"
-    android:weightSum="3"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="3">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".2"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:gravity="center|left"
-        android:layout_marginLeft="10dp"
-        android:text="@string/work_out_history"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:textSize="25sp" />
+        android:layout_marginTop="10dp"
+        android:layout_weight=".4"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:gravity="center|left"
+            android:text="@string/work_out_history"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settingImage"
+            android:layout_gravity="center_horizontal|right"
+            android:padding="5dp"
+            android:src="@drawable/settings" />
+
+    </LinearLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
         android:id="@+id/historyTableLayout"
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="0dp"
-        android:layout_weight="2.3">
+        android:layout_weight="2.1"
+        android:orientation="horizontal">
 
     </TableLayout>
 
@@ -38,8 +54,7 @@
         android:layout_height="0dp"
         android:layout_weight=".4"
         android:gravity="bottom|right"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,10 +70,10 @@
             android:layout_height="55dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:padding="5dp"
-            android:gravity="center"
-            android:text="+"
             android:background="@drawable/white_circle"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="+"
             android:textAllCaps="false"
             android:textSize="35sp" />
 

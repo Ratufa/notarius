@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
@@ -31,21 +32,26 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
 
     public static Activity mainScreen;
 
+    private ImageView settingsImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
         mainScreen = this;
 
-        olderbtn = (Button)findViewById(R.id.olderBtn);
+        olderbtn = (Button) findViewById(R.id.olderBtn);
 
-        todayBtn = (Button)findViewById(R.id.todayBtn);
+        todayBtn = (Button) findViewById(R.id.todayBtn);
 
-        historyBtn = (Button)findViewById(R.id.workOutHistoryBtn);
+        historyBtn = (Button) findViewById(R.id.workOutHistoryBtn);
+
+        settingsImage = (ImageView) findViewById(R.id.settingImage);
 
         olderbtn.setOnClickListener(this);
         todayBtn.setOnClickListener(this);
         historyBtn.setOnClickListener(this);
+        settingsImage.setOnClickListener(this);
 
     }
 
@@ -73,6 +79,12 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
                 intent2.putExtra("history",true);
                 startActivity(intent2);
                 finish();
+                break;
+
+            case R.id.settingImage:
+                Intent intent3 = new Intent(this, SettingsActivity.class);
+                startActivity(intent3);
+
                 break;
 
         }

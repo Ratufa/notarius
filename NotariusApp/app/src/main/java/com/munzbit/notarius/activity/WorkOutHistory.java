@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
 
     private TableLayout tableLayout;
 
+    private ImageView settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +45,15 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
         arrayList = dataManager.getWorkoutHistory();
 
         registerWorkOut = (Button) findViewById(R.id.registerWorkBtn);
+
         tableLayout = (TableLayout) findViewById(R.id.historyTableLayout);
+
+        settings = (ImageView) findViewById(R.id.settingImage);
 
         createTableLayout();
 
         registerWorkOut.setOnClickListener(this);
+        settings.setOnClickListener(this);
     }
 
     private TableLayout createTableLayout() {
@@ -189,6 +196,14 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 finish();
                 break;
+
+            case R.id.settingImage:
+
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+
+                break;
+
 
         }
     }

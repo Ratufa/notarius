@@ -1,5 +1,6 @@
 package com.munzbit.notarius.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.munzbit.notarius.R;
+import com.munzbit.notarius.activity.SettingsActivity;
+import com.munzbit.notarius.modal.TimerModal;
 
 import java.util.ArrayList;
 
@@ -18,13 +21,13 @@ import java.util.ArrayList;
  */
 public class PopupAdapter extends BaseAdapter {
 
-    private ArrayList<String> dataList;
+    private ArrayList<TimerModal> dataList;
 
     private Context context;
 
     private LayoutInflater layoutInflater;
 
-    public PopupAdapter(Context ctx,ArrayList<String> arrayList) {
+    public PopupAdapter(Context ctx,ArrayList<TimerModal> arrayList) {
         this.context = ctx;
         this.dataList = arrayList;
         layoutInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -37,7 +40,7 @@ public class PopupAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public TimerModal getItem(int position) {
         return dataList.get(position);
     }
 
@@ -48,16 +51,18 @@ public class PopupAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+        TimerModal timerModal = getItem(position);
 
         View view = layoutInflater.inflate(R.layout.popup_layout,null);
 
         TextView textView =(TextView) view.findViewById(R.id.dayTv);
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.repeatCheckbox);
 
-        textView.setText(dataList.get(position));
+        textView.setText(timerModal.getTimerType());
 
-        checkBox.setTag(position);
+        checkBox.setTag(timerModal);
 
         if(position==0){
             checkBox.setVisibility(View.INVISIBLE);
@@ -69,8 +74,19 @@ public class PopupAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+                TimerModal timerModal =(TimerModal) buttonView.getTag();
+                timerModal.setIsSelected(isChecked);
+
+                if(isChecked){
+                    dataList.get(position).setIsSelected(true);
+                }if(!isChecked){
+                    dataList.get(position).setIsSelected(false);
+                }
+                ((SettingsActivity)context).getSelectedItems(dataList);
             }
         });
+
+        checkBox.setChecked(timerModal.getIsSelected());
 
         return view;
     }
