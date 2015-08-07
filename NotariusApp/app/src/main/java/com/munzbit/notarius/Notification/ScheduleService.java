@@ -1,4 +1,4 @@
-package com.munzbit.notarius.Notification;
+package com.munzbit.notarius.notification;
 
 import android.app.Service;
 import android.content.Intent;
@@ -27,17 +27,20 @@ public class ScheduleService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        //setAlarm();
+        return mBinder;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
+
         return super.onUnbind(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+
+        return START_STICKY;
     }
 
     @Override
@@ -45,10 +48,10 @@ public class ScheduleService extends Service {
         super.onDestroy();
     }
 
-    public void setAlarm(Calendar c) {
+    public void setAlarm() {
         // This starts a new thread to set the alarm
         // You want to push off your tasks onto a new thread to free up the UI to carry on responding
 
-        new AlarmTask(this, c).run();
+        new AlarmTask(this).run();
     }
 }

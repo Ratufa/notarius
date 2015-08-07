@@ -15,6 +15,7 @@
     <string name="duration_text">Duration</string>
     <string name="effort_text">Effort</string>
     <string name="save_history">Save &amp; history</string>
+    <string name="save_new">Save &amp; add new </string>
     <string name="save_exit">Save &amp; exit</string>
     <string name="work_out_history">Workout history</string>
     <string name="register">Register workout</string>

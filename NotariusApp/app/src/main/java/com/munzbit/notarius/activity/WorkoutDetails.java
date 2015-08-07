@@ -22,6 +22,8 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
 
     private Button cancelBtn;
 
+    private Button addBtn;
+
     private Button historyBtn;
 
     private Button exitBtn;
@@ -54,6 +56,8 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
         historyBtn = (Button) findViewById(R.id.saveHistoryBtn);
 
         exitBtn = (Button) findViewById(R.id.saveExitBtn);
+
+        addBtn = (Button) findViewById(R.id.saveAndNew);
 
         effortsSeekBar = (SeekBar) findViewById(R.id.seekBarEffort);
 
@@ -107,6 +111,7 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
         cancelBtn.setOnClickListener(this);
         exitBtn.setOnClickListener(this);
         historyBtn.setOnClickListener(this);
+        addBtn.setOnClickListener(this);
 
 
     }
@@ -118,6 +123,25 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
             case R.id.cancelBtn:
                 WorkOutActivity.workOut.finish();
                 onBackPressed();
+                break;
+            case R.id.saveAndNew:
+                if (hours < 10 && min > 10) {
+                    workDuration = "0" + hours + ":" + min;
+                } else if (hours > 10 && min < 10) {
+                    workDuration = hours + ":0" + min;
+                } else if (hours < 10 && min < 10) {
+                    workDuration = "0" + hours + ":0" + min;
+                }else{
+                    workDuration = hours + ":" + min;
+                }
+                workDate = SharedPrefrnceNotarius.getSharedPrefData(this,"work_date");
+                dataManager.insertData(workDate, workDuration, workType, workEffort);
+
+                WorkOutActivity.workOut.finish();
+                MainScreenActivity.mainScreen.finish();
+                Intent intent = new Intent(this, MainScreenActivity.class);
+                startActivity(intent);
+                finish();
                 break;
 
             case R.id.saveExitBtn:
@@ -154,13 +178,15 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
 
                 WorkOutActivity.workOut.finish();
                 MainScreenActivity.mainScreen.finish();
-                Intent intent = new Intent(this, WorkOutHistory.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(this, WorkOutHistory.class);
+                startActivity(intent1);
                 finish();
                 break;
         }
 
     }
+
+
 
     @Override
     public void onBackPressed() {

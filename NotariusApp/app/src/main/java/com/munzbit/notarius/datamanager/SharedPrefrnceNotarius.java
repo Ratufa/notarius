@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SharedPrefrnceNotarius {
 
@@ -33,6 +36,26 @@ public class SharedPrefrnceNotarius {
 		}
 
 		return value;
+	}
+
+	public static void writeArraylist(Context activity, String key,
+									  List<String> arryid) {
+
+		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
+				Context.MODE_PRIVATE);
+		Set<String> set = new HashSet<String>(arryid);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putStringSet(key, set).commit();
+
+	}
+
+	public static List<String> ReadArraylist(Context activity, String key) {
+		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
+				Context.MODE_PRIVATE);
+		Set<String> stock_Set = prefs.getStringSet(key,
+				new HashSet<String>());
+		List<String> demo = new ArrayList<String>(stock_Set);
+		return demo;
 	}
 
 	public static void setDataInSharedPrefrence(Activity activity, String key,

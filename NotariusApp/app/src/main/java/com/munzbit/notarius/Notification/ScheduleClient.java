@@ -1,4 +1,4 @@
-package com.munzbit.notarius.Notification;
+package com.munzbit.notarius.notification;
 
 /**
  * Created by Ratufa.Manish on 8/6/2015.
@@ -10,13 +10,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import java.util.Calendar;
 
 /**
  * This is our service client, it is the 'middle-man' between the
  * service and any activity that wants to connect to the service
- *
- *
  */
 public class ScheduleClient {
 
@@ -29,6 +26,7 @@ public class ScheduleClient {
 
     public ScheduleClient(Context context) {
         mContext = context;
+
     }
 
     /**
@@ -48,20 +46,21 @@ public class ScheduleClient {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with our service has been established,
             // giving us the service object we can use to interact with our service.
+            //Toast.makeText(mContext,"service connected",Toast.LENGTH_LONG).show();
             mBoundService = ((ScheduleService.ServiceBinder) service).getService();
+           // setAlarmForNotification(calendar);
         }
 
         public void onServiceDisconnected(ComponentName className) {
             mBoundService = null;
+            //Toast.makeText(mContext,"service disconnected",Toast.LENGTH_LONG).show();
         }
+
     };
 
-    /**
-     * Tell our service to set an alarm for the given date
-     * @param c a date to set the notification for
-     */
-    public void setAlarmForNotification(Calendar c){
-        mBoundService.setAlarm(c);
+
+    public void setAlarmForNotification(){
+        mBoundService.setAlarm();
     }
 
     /**

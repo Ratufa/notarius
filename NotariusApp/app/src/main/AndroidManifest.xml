@@ -14,17 +14,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.MainScreenActivity"></activity>
+
         <activity android:name=".activity.WorkOutActivity"></activity>
-        <activity android:name=".activity.WorkoutDetails" android:windowSoftInputMode="stateHidden">
 
-        </activity>
-        <activity android:name=".activity.WorkOutHistory"></activity>
-        <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.WorkoutDetails" android:windowSoftInputMode="stateHidden"/>
 
-        <service android:name=".Notification.NotifyService" />
+        <activity android:name=".activity.WorkOutHistory"/>
 
-        <service android:name=".Notification.ScheduleService" />
+        <activity android:name=".activity.SettingsActivity"/>
+
+        <service android:name=".notification.NotifyService" />
+
+        <service android:name=".notification.ScheduleService" />
+
+
 
     </application>
 

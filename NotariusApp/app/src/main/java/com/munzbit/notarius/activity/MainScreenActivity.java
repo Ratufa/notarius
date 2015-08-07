@@ -23,7 +23,6 @@ import java.util.Calendar;
  */
 public class MainScreenActivity extends FragmentActivity implements View.OnClickListener {
 
-
     private Button todayBtn;
 
     private Button olderbtn;
@@ -39,7 +38,6 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
         mainScreen = this;
-
         olderbtn = (Button) findViewById(R.id.olderBtn);
 
         todayBtn = (Button) findViewById(R.id.todayBtn);
@@ -57,7 +55,7 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.olderBtn:
                 DialogFragment newFragment = new DatePickerFragment();
@@ -69,14 +67,14 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                SharedPrefrnceNotarius.setDataInSharedPrefrence(this,"work_date",day+"/"+(month+1)+"/"+year);
+                SharedPrefrnceNotarius.setDataInSharedPrefrence(this, "work_date", day + "/" + (month + 1) + "/" + year);
                 Intent intent1 = new Intent(this, WorkOutActivity.class);
                 startActivity(intent1);
                 break;
 
             case R.id.workOutHistoryBtn:
                 Intent intent2 = new Intent(this, WorkOutHistory.class);
-                intent2.putExtra("history",true);
+                intent2.putExtra("history", true);
                 startActivity(intent2);
                 finish();
                 break;
@@ -84,7 +82,6 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
             case R.id.settingImage:
                 Intent intent3 = new Intent(this, SettingsActivity.class);
                 startActivity(intent3);
-
                 break;
 
         }
@@ -115,7 +112,7 @@ public class MainScreenActivity extends FragmentActivity implements View.OnClick
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            SharedPrefrnceNotarius.setDataInSharedPrefrence(getActivity(),"work_date",day+"/"+(month+1)+"/"+year);
+            SharedPrefrnceNotarius.setDataInSharedPrefrence(getActivity(), "work_date", day + "/" + (month + 1) + "/" + year);
             Intent intent = new Intent(getActivity(), WorkOutActivity.class);
             startActivity(intent);
         }

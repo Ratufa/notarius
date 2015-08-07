@@ -1,4 +1,4 @@
-package com.munzbit.notarius.Notification;
+package com.munzbit.notarius.notification;
 
 /**
  * Created by Ratufa.Manish on 8/6/2015.
@@ -38,7 +38,7 @@ public class NotifyService extends Service {
     // Unique id to identify the notification.
     private static final int NOTIFICATION = 123;
     // Name of an intent extra we can use to identify if this service was started to create a notification
-    public static final String INTENT_NOTIFY = "com.blundell.tut.service.INTENT_NOTIFY";
+    public static final String INTENT_NOTIFY = "com.notarius.service.INTENT_NOTIFY";
     // The system notification manager
     private NotificationManager mNM;
 
@@ -57,7 +57,7 @@ public class NotifyService extends Service {
             showNotification();
 
         // We don't care if this service is stopped as we have already delivered our notification
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override
@@ -96,6 +96,7 @@ public class NotifyService extends Service {
         mNM.notify(NOTIFICATION, notification);
 
         // Stop the service when we are finished
+        new AlarmTask(this).run();
         stopSelf();
     }
 }
