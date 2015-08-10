@@ -95,8 +95,7 @@ public class NotifyService extends Service {
         // Send the notification to the system.
         mNM.notify(NOTIFICATION, notification);
 
-        // Stop the service when we are finished
-        new AlarmTask(this).run();
+        //new AlarmTask(this).run();
         stopSelf();
     }
 }

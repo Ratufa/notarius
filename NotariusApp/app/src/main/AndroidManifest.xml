@@ -19,16 +19,21 @@
 
         <activity android:name=".activity.WorkOutActivity"></activity>
 
-        <activity android:name=".activity.WorkoutDetails" android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activity.WorkoutDetails"
+            android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name=".activity.WorkOutHistory"/>
+        <activity android:name=".activity.WorkOutHistory" />
 
-        <activity android:name=".activity.SettingsActivity"/>
+        <activity android:name=".activity.SettingsActivity" />
 
         <service android:name=".notification.NotifyService" />
 
         <service android:name=".notification.ScheduleService" />
+        <service android:name=".alarm_manager.AlarmService"></service>
+        <service android:name=".alarm_manager.NotificationService"></service>
 
+        <receiver android:name=".alarm_manager.AlarmReceiver"></receiver>
 
 
     </application>

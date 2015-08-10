@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.activity.SettingsActivity;
+import com.munzbit.notarius.datamanager.DataManager;
 import com.munzbit.notarius.modal.TimerModal;
 
 import java.util.ArrayList;
@@ -27,10 +28,13 @@ public class PopupAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
 
+    private DataManager dataManager;
+
     public PopupAdapter(Context ctx,ArrayList<TimerModal> arrayList) {
         this.context = ctx;
         this.dataList = arrayList;
         layoutInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        dataManager = new DataManager(ctx);
     }
 
     @Override
@@ -79,8 +83,10 @@ public class PopupAdapter extends BaseAdapter {
 
                 if(isChecked){
                     dataList.get(position).setIsSelected(true);
+                    dataManager.insertFrequency(dataList.get(position).getTimerType());
                 }if(!isChecked){
                     dataList.get(position).setIsSelected(false);
+                    dataManager.removeFrequency(dataList.get(position).getTimerType());
                 }
                 ((SettingsActivity)context).getSelectedItems(dataList);
             }

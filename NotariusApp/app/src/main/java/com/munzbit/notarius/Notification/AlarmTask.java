@@ -32,13 +32,13 @@ public class AlarmTask implements Runnable {
     // The date selected for the alarm
     //private final Calendar date;
     // The android system alarm manager
-    private final AlarmManager am;
+    public static AlarmManager am = null;
     // Your context to retrieve the alarm manager from
     private final Context context;
 
     public AlarmTask(Context context) {
         this.context = context;
-        this.am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmTask.am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
     }
 
@@ -57,10 +57,11 @@ public class AlarmTask implements Runnable {
         calendar.set(year, month, day);
 
         calendar.set(Calendar.HOUR_OF_DAY, 20);
+        //calendar.set(Calendar.DAY_OF_MONTH, Calendar.TUESDAY);
 
-        calendar.set(Calendar.MINUTE, 0);
+        //calendar.set(Calendar.MINUTE, 0);
 
-        calendar.set(Calendar.SECOND, 0);
+        //calendar.set(Calendar.SECOND, 0);
 
         List<String> frequencyList = SharedPrefrnceNotarius.ReadArraylist(context, "frequency_list");
 
@@ -68,18 +69,18 @@ public class AlarmTask implements Runnable {
 
         //for (int i = 0; i < frequencyList.size(); i++) {
 
-            Intent intent = new Intent(context, NotifyService.class);
+        Intent intent = new Intent(context, NotifyService.class);
 
-            intent.putExtra(NotifyService.INTENT_NOTIFY, true);
+        intent.putExtra(NotifyService.INTENT_NOTIFY, true);
 
-            PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 1000, intent, PendingIntent.FLAG_ONE_SHOT);
 
-            // Sets an alarm - note this alarm will be lost if the phone is turned off and on again
-            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        // Sets an alarm - note this alarm will be lost if the phone is turned off and on again
+        //am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
 
-            pendingIntents.add(pendingIntent);
-        //}
-
+        pendingIntents.add(pendingIntent);
 
     }
 }
