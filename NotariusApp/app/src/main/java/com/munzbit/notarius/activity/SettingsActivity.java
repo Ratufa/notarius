@@ -44,7 +44,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
     private String repeatTime = "Everyday";
 
-    //private ScheduleClient scheduleClient;
+    private ScheduleClient scheduleClient;
 
     private Calendar calendar;
 
@@ -58,12 +58,15 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
     private DataManager dataManager;
 
+    private AlarmService alarmService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
         frequencyTimes = new ArrayList<TimerModal>();
         dataManager = new DataManager(this);
+        alarmService = new AlarmService();
 
         toggleNotification = (ToggleButton) findViewById(R.id.toggleButton);
 
@@ -80,7 +83,6 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
         //scheduleClient = new ScheduleClient(this);
 
         //scheduleClient.doBindService();
-
 
         if (SharedPrefrnceNotarius.getBoolSharedPrefData(this, "notification_on")) {
             toggleNotification.setChecked(true);
@@ -181,7 +183,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
             }
 
         }else{
-            stopService(new Intent(SettingsActivity.this, AlarmService.class));
+            //scheduleClient.doUnbindService();
         }
 
 
@@ -191,15 +193,18 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                  if (isChecked) {
-                   SharedPrefrnceNotarius.setBoolInSharedPrefs(SettingsActivity.this, "notification_on", true);
-                   //scheduleClient.setAlarmForNotification();
+                     SharedPrefrnceNotarius.setBoolInSharedPrefs(SettingsActivity.this, "notification_on", true);
+
+                     //scheduleClient.setAlarmForNotification();
+                     //scheduleClient.doBindService();
                      startService(new Intent(SettingsActivity.this, AlarmService.class));
                    }
 
                    if (!isChecked) {
-                   SharedPrefrnceNotarius.setBoolInSharedPrefs(SettingsActivity.this, "notification_on", false);
+                       SharedPrefrnceNotarius.setBoolInSharedPrefs(SettingsActivity.this, "notification_on", false);
                    //scheduleClient.doUnbindService();
                        stopService(new Intent(SettingsActivity.this, AlarmService.class));
+                       alarmService.stopSelf();
                    }
 
                  }
@@ -220,44 +225,44 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
         Log.e("data store", frequencyList.toString() + "");
 
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < frequencyList.size(); i++) {
 
             if (data.get(i).getIsSelected()) {
 
                 if (data.get(i).getTimerType().split(" ")[1].equals("Monday")) {
-                    if (data.size() % 2 == 0)
+                    if (frequencyList.size() % 2 == 0)
                         repeatTime = repeatTime.concat("Mon").concat(",");
                     else
                         repeatTime = repeatTime.concat("Mon");
 
                 }
                 if (data.get(i).getTimerType().split(" ")[1].equals("Tuesday")) {
-                    if (data.size() % 2 == 0)
+                    if (frequencyList.size() % 2 == 0)
                         repeatTime = repeatTime.concat("Tue").concat(",");
                     else
                         repeatTime = repeatTime.concat("Tue");
                 }
                 if (data.get(i).getTimerType().split(" ")[1].equals("Wednesday")) {
-                    if (data.size() % 2 == 0)
+                    if (frequencyList.size() % 2 == 0)
                         repeatTime = repeatTime.concat("Wed").concat(",");
                     else
                         repeatTime = repeatTime.concat("Wed");
                 }
                 if (data.get(i).getTimerType().split(" ")[1].equals("Thursday")) {
-                    if (data.size() % 2 == 0)
+                    if (frequencyList.size() % 2 == 0)
                         repeatTime = repeatTime.concat("Thu").concat(",");
                     else
 
                         repeatTime = repeatTime.concat("Thu");
                 }
                 if (data.get(i).getTimerType().split(" ")[1].equals("Friday")) {
-                    if (data.size() % 2 == 0)
+                    if (frequencyList.size() % 2 == 0)
                         repeatTime = repeatTime.concat("Fri").concat(",");
                     else
                         repeatTime = repeatTime.concat("Fri");
                 }
                 if (data.get(i).getTimerType().split(" ")[1].equals("Saturday")) {
-                    if (data.size() % 2 == 0)
+                    if (frequencyList.size() % 2 == 0)
                         repeatTime = repeatTime.concat("Sat").concat(",");
                     else
                         repeatTime = repeatTime.concat("Sat");
@@ -301,8 +306,10 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 dialog.dismiss();
+                //scheduleClient.doUnbindService();
+                //scheduleClient.doBindService();
 
-                stopService(new Intent(SettingsActivity.this, AlarmService.class));
+                alarmService.stopSelf();
 
                 startService(new Intent(SettingsActivity.this, AlarmService.class));
 
@@ -325,6 +332,11 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                alarmService.stopSelf();
+                startService(new Intent(SettingsActivity.this, AlarmService.class));
+                //scheduleClient.doUnbindService();
+              // scheduleClient.doBindService();
+
                 if(frequencyList.size() > 0){
                     frequencyTv.setVisibility(View.INVISIBLE);
                     frequencyTv2.setVisibility(View.VISIBLE);
@@ -348,8 +360,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
         if (SharedPrefrnceNotarius.getBoolSharedPrefData(this, "notification_on")) {
             toggleNotification.setChecked(true);
             //stopService(new Intent(SettingsActivity.this, AlarmService.class));
-
-            startService(new Intent(SettingsActivity.this, AlarmService.class));
+            //startService(new Intent(SettingsActivity.this, AlarmService.class));
         } else {
            // stopService(new Intent(SettingsActivity.this, AlarmService.class));
             toggleNotification.setChecked(false);
@@ -381,7 +392,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
-        //scheduleClient.doUnbindService();
+
     }
 
     @Override

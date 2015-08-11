@@ -7,9 +7,7 @@ import android.os.IBinder;
 
 import java.util.Calendar;
 
-/**
- * Created by Ratufa.Manish on 8/6/2015.
- */
+
 public class ScheduleService extends Service {
 
     private final IBinder mBinder = new ServiceBinder();

@@ -6,25 +6,22 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.activity.MainScreenActivity;
+import com.munzbit.notarius.notification.AlarmTask;
+import com.munzbit.notarius.notification.ScheduleClient;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class NotificationService extends Service {
 
 	private NotificationManager mManager;
+	private ScheduleClient scheduleClient;
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-
 		return null;
 	}
 
@@ -32,6 +29,7 @@ public class NotificationService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		mManager = (NotificationManager)this.getSystemService(NOTIFICATION_SERVICE);
+		scheduleClient = new ScheduleClient(this);
 	}
 
 	@SuppressLint("NewApi")
@@ -55,14 +53,16 @@ public class NotificationService extends Service {
 		mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 		mBuilder.setAutoCancel(true);
 		mManager.notify(0, mBuilder.build());
-		startService(new Intent(NotificationService.this, AlarmService.class));
+		//new AlarmTask(this).run();
+		//scheduleClient.doUnbindService();
+		//scheduleClient.doBindService();
+		//startService(new Intent(NotificationService.this, AlarmService.class));
 		stopSelf();
 
 	}
 
 	@Override
 	public void onDestroy() {
-
 		super.onDestroy();
 	}
 

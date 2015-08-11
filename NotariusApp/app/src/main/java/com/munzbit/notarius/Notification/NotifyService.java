@@ -42,10 +42,14 @@ public class NotifyService extends Service {
     // The system notification manager
     private NotificationManager mNM;
 
+
+    private  ScheduleClient scheduleClient;
+
     @Override
     public void onCreate() {
         Log.i("NotifyService", "onCreate()");
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        scheduleClient = new ScheduleClient(this);
     }
 
     @Override
@@ -94,7 +98,9 @@ public class NotifyService extends Service {
 
         // Send the notification to the system.
         mNM.notify(NOTIFICATION, notification);
-
+        //new AlarmTask(this).run();
+        scheduleClient.doUnbindService();
+        scheduleClient.doBindService();
         //new AlarmTask(this).run();
         stopSelf();
     }

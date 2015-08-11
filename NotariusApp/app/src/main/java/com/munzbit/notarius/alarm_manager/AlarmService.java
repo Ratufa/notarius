@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.munzbit.notarius.datamanager.DataManager;
@@ -40,14 +41,12 @@ public class AlarmService extends WakefulIntentService {
 
     @Override
     public void onCreate() {
-
         c = Calendar.getInstance();
         dataManager = new DataManager(this);
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        NotificationUpdate();
+        //NotificationUpdate();
     }
 
     @SuppressWarnings("unchecked")
@@ -64,6 +63,8 @@ public class AlarmService extends WakefulIntentService {
 
         c.set(Calendar.HOUR_OF_DAY, 20);
 
+        c.set(Calendar.MINUTE, 00);
+
         NotificationUpdate();
 
         return START_STICKY;
@@ -77,49 +78,96 @@ public class AlarmService extends WakefulIntentService {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        stopSelf();
+        //super.onDestroy();
+        //stopSelf();
     }
 
     public void NotificationUpdate() {
-        AlarmManager mgrAlarm = null;
+
+        c = Calendar.getInstance();
+
+        mYear = c.get(Calendar.YEAR);
+
+        mMonth = c.get(Calendar.MONTH);
+
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        c.set(Calendar.YEAR, mYear);
+
+        c.set(Calendar.MONTH, mMonth);
+
+        c.set(Calendar.HOUR_OF_DAY, 20);
+
+        c.set(Calendar.MINUTE, 0);
+
+        c.set(mYear, mMonth, mDay);
+
+        AlarmManager mgrAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+        ;
         intentArray = new ArrayList<PendingIntent>();
         ArrayList<String> dataList = dataManager.getAllFrequency();
+        Log.e("data list>>>", dataList + ">>>");
 
         if (dataList.size() > 0) {
+
             for (int i = 0; i < dataList.size(); i++) {
 
-                if (dataList.get(i).equals("Monday"))
-                    c.set(Calendar.DAY_OF_MONTH, Calendar.MONDAY);
-                else if (dataList.get(i).equals("Tuesday"))
-                    c.set(Calendar.DAY_OF_MONTH, Calendar.TUESDAY);
-                else if (dataList.get(i).equals("Wednesday"))
-                    c.set(Calendar.DAY_OF_MONTH, Calendar.WEDNESDAY);
-                else if (dataList.get(i).equals("Thursday"))
-                    c.set(Calendar.DAY_OF_MONTH, Calendar.THURSDAY);
-                else if (dataList.get(i).equals("Friday"))
-                    c.set(Calendar.DAY_OF_MONTH, Calendar.FRIDAY);
-                else if (dataList.get(i).equals("Saturday"))
-                    c.set(Calendar.DAY_OF_MONTH, Calendar.SATURDAY);
-                Log.e("day wise alarm","true>>");
-                mgrAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if (dataList.get(i).split(" ")[1].equals("Monday"))
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                if (dataList.get(i).split(" ")[1].equals("Tuesday"))
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                if (dataList.get(i).split(" ")[1].equals("Wednesday"))
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                if (dataList.get(i).split(" ")[1].equals("Thursday"))
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                if (dataList.get(i).split(" ")[1].equals("Friday"))
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                if (dataList.get(i).split(" ")[1].equals("Saturday"))
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                Log.e("day wise alarm", "true>>");
+
                 Intent intent = new Intent(this,
                         AlarmReceiver.class);
                 PendingIntent pendingIntent = PendingIntent
                         .getBroadcast(this, i, intent, 0);
-                mgrAlarm.set(AlarmManager.RTC_WAKEUP,
-                        c.getTimeInMillis(), pendingIntent);
+
+//                mgrAlarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                        SystemClock.elapsedRealtime(),
+//                        1 * 60 * 1000,
+//                        pendingIntent);
+
+                mgrAlarm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+               /* mgrAlarm.set(AlarmManager.RTC_WAKEUP,
+                        c.getTimeInMillis(), pendingIntent);*/
                 intentArray.add(pendingIntent);
             }
         } else {
-            Log.e("everyday alarm","true>>");
-            c.set(Calendar.DAY_OF_MONTH, mDay);
+            Log.e("everyday alarm", "true>>");
+            c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
 
-            mgrAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+            //c.set(Calendar.YEAR, mYear);
+
+            //c.set(Calendar.MONTH, mMonth);
+
+            c.set(Calendar.HOUR_OF_DAY, 20);
+
+            c.set(Calendar.MINUTE, 0);
+
+            c.set(Calendar.DAY_OF_MONTH, mDay);
+            //c.set(mYear, mMonth, mDay);
+            //mgrAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
             Intent intent = new Intent(this,
                     AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent
                     .getBroadcast(this, 1000, intent, 0);
+
+//            mgrAlarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                    SystemClock.elapsedRealtime(),
+//                    1 * 60 * 1000,
+//                    pendingIntent);
 
             mgrAlarm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }

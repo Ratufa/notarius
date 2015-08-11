@@ -48,7 +48,7 @@ public class ScheduleClient {
             // giving us the service object we can use to interact with our service.
             //Toast.makeText(mContext,"service connected",Toast.LENGTH_LONG).show();
             mBoundService = ((ScheduleService.ServiceBinder) service).getService();
-           // setAlarmForNotification(calendar);
+            setAlarmForNotification();
         }
 
         public void onServiceDisconnected(ComponentName className) {
