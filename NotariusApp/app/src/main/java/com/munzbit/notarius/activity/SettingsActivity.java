@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import com.munzbit.notarius.notification.ScheduleClient;
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.adapter.PopupAdapter;
 import com.munzbit.notarius.modal.TimerModal;
+import com.munzbit.notarius.utility.Methods;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,9 +42,9 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
     private TextView frequencyTv;
 
-    private ArrayList<TimerModal> frequencyTimes;
+    // private ArrayList<TimerModal> frequencyTimes;
 
-    private String repeatTime = "Everyday";
+    private String repeatTime = "Never";
 
     private ScheduleClient scheduleClient;
 
@@ -50,7 +52,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
     private int year, month, day;
 
-    private List<String> frequencyList;
+    private List<TimerModal> frequencyList;
 
     public static TextView timeTextView;
 
@@ -60,15 +62,29 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
     private AlarmService alarmService;
 
+    private ListView listView;
+
+    private Dialog dialog;
+
+    private ArrayList<TimerModal> tempList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        frequencyTimes = new ArrayList<TimerModal>();
         dataManager = new DataManager(this);
         alarmService = new AlarmService();
 
-        toggleNotification = (ToggleButton) findViewById(R.id.toggleButton);
+        if (SharedPrefrnceNotarius.getSharedPrefData(this, "alarm_time") == null) {
+            SharedPrefrnceNotarius.setDataInSharedPrefrence(this, "am_pm", "PM");
+            SharedPrefrnceNotarius.setDataInSharedPrefrence(this, "alarm_time", Methods.pad(20) + ":" + Methods.pad(0));
+        }
+
+        dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.popup_box);
+
+        listView = (ListView) dialog.findViewById(R.id.listView);
 
         frequencyTv = (TextView) findViewById(R.id.frequencySpinner);
 
@@ -76,204 +92,91 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
         frequencyTv2 = (TextView) findViewById(R.id.frequencyText);
 
+        timeTextView.setText(SharedPrefrnceNotarius.getSharedPrefData(this, "alarm_time") + " " + SharedPrefrnceNotarius.getSharedPrefData(this, "am_pm"));
+
         frequencyTv.setOnClickListener(this);
         timeTextView.setOnClickListener(this);
         frequencyTv2.setOnClickListener(this);
 
-        //scheduleClient = new ScheduleClient(this);
-
-        //scheduleClient.doBindService();
-
-        if (SharedPrefrnceNotarius.getBoolSharedPrefData(this, "notification_on")) {
-            toggleNotification.setChecked(true);
-        } else {
-            toggleNotification.setChecked(false);
-        }
-
-        TimerModal timerModal1 = new TimerModal();
-        timerModal1.setIsSelected(false);
-        timerModal1.setTimerType("Repeat");
-
-        TimerModal timerModal2 = new TimerModal();
-        timerModal2.setIsSelected(false);
-        timerModal2.setTimerType("Every Monday");
-
-        TimerModal timerModal3 = new TimerModal();
-        timerModal3.setIsSelected(false);
-        timerModal3.setTimerType("Every Tuesday");
-
-        TimerModal timerModal4 = new TimerModal();
-        timerModal4.setIsSelected(false);
-        timerModal4.setTimerType("Every Wednesday");
-
-        TimerModal timerModal5 = new TimerModal();
-        timerModal5.setIsSelected(false);
-        timerModal5.setTimerType("Every Thursday");
-
-        TimerModal timerModal6 = new TimerModal();
-        timerModal6.setIsSelected(false);
-        timerModal6.setTimerType("Every Friday");
-
-        TimerModal timerModal7 = new TimerModal();
-        timerModal7.setIsSelected(false);
-        timerModal7.setTimerType("Every Saturday");
-
-        frequencyTimes.add(timerModal1);
-        frequencyTimes.add(timerModal2);
-        frequencyTimes.add(timerModal3);
-        frequencyTimes.add(timerModal4);
-        frequencyTimes.add(timerModal5);
-        frequencyTimes.add(timerModal6);
-        frequencyTimes.add(timerModal7);
-
         repeatTime = "";
-
-        frequencyList = new ArrayList<>();
-
-        List<String> tempList = new ArrayList<>();
-
-        tempList = dataManager.getAllFrequency();
-
-        if (tempList.size() > 0) {
-
-            for (int i = 0; i < tempList.size(); i++) {
-
-                if (tempList.get(i).split(" ")[1].equals("Monday")) {
-
-                    if (tempList.size() % 2 == 0)
-                        repeatTime = repeatTime.concat("Mon").concat(",");
-                    else
-                        repeatTime = repeatTime.concat("Mon");
-
-                }
-                if (tempList.get(i).split(" ")[1].equals("Tuesday")) {
-                    if (tempList.size() % 2 == 0)
-                        repeatTime = repeatTime.concat("Tue").concat(",");
-                    else
-                        repeatTime = repeatTime.concat("Tue");
-                }
-                if (tempList.get(i).split(" ")[1].equals("Wednesday")) {
-                    if (tempList.size() % 2 == 0)
-                        repeatTime = repeatTime.concat("Wed").concat(",");
-                    else
-                        repeatTime = repeatTime.concat("Wed");
-                }
-                if (tempList.get(i).split(" ")[1].equals("Thursday")) {
-                    if (tempList.size() % 2 == 0)
-                        repeatTime = repeatTime.concat("Thu").concat(",");
-                    else
-                        repeatTime = repeatTime.concat("Thu");
-                }
-                if (tempList.get(i).split(" ")[1].equals("Friday")) {
-                    if (tempList.size() % 2 == 0)
-                        repeatTime = repeatTime.concat("Fri").concat(",");
-                    else
-                        repeatTime = repeatTime.concat("Fri");
-                }
-                if (tempList.get(i).split(" ")[1].equals("Saturday")) {
-                    if (tempList.size() % 2 == 0)
-                        repeatTime = repeatTime.concat("Sat").concat(",");
-                    else
-                        repeatTime = repeatTime.concat("Sat");
-                }
-
-                frequencyTv2.setVisibility(View.VISIBLE);
-                frequencyTv.setVisibility(View.INVISIBLE);
-                frequencyTv2.setText(repeatTime);
-            }
-
-        }else{
-            //scheduleClient.doUnbindService();
-        }
-
-
-        toggleNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-               @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                 if (isChecked) {
-                     SharedPrefrnceNotarius.setBoolInSharedPrefs(SettingsActivity.this, "notification_on", true);
-
-                     //scheduleClient.setAlarmForNotification();
-                     //scheduleClient.doBindService();
-                     startService(new Intent(SettingsActivity.this, AlarmService.class));
-                   }
-
-                   if (!isChecked) {
-                       SharedPrefrnceNotarius.setBoolInSharedPrefs(SettingsActivity.this, "notification_on", false);
-                   //scheduleClient.doUnbindService();
-                       stopService(new Intent(SettingsActivity.this, AlarmService.class));
-                       alarmService.stopSelf();
-                   }
-
-                 }
-
-            }
-
-        );
-
     }
 
     public void getSelectedItems(ArrayList<TimerModal> data) {
 
         repeatTime = "";
 
-        frequencyList = new ArrayList<String>();
+        frequencyList = new ArrayList<TimerModal>();
 
         frequencyList = dataManager.getAllFrequency();
 
-        Log.e("data store", frequencyList.toString() + "");
+        //Log.e("data store", frequencyList.toString() + "");
 
         for (int i = 0; i < frequencyList.size(); i++) {
 
+            int j = i;
+            if (j % 2 != 0) {
+                j = j + 1;
+            }
+
             if (data.get(i).getIsSelected()) {
 
-                if (data.get(i).getTimerType().split(" ")[1].equals("Monday")) {
-                    if (frequencyList.size() % 2 == 0)
+                if (data.get(i).getTimerType().equals("Monday")) {
+
+                    if (j % 2 == 0)
                         repeatTime = repeatTime.concat("Mon").concat(",");
                     else
                         repeatTime = repeatTime.concat("Mon");
-
                 }
-                if (data.get(i).getTimerType().split(" ")[1].equals("Tuesday")) {
-                    if (frequencyList.size() % 2 == 0)
+                if (data.get(i).getTimerType().equals("Tuesday")) {
+
+                    if (j % 2 == 0)
                         repeatTime = repeatTime.concat("Tue").concat(",");
                     else
                         repeatTime = repeatTime.concat("Tue");
+
                 }
-                if (data.get(i).getTimerType().split(" ")[1].equals("Wednesday")) {
-                    if (frequencyList.size() % 2 == 0)
+                if (data.get(i).getTimerType().equals("Wednesday")) {
+
+                    if (j % 2 == 0)
                         repeatTime = repeatTime.concat("Wed").concat(",");
                     else
                         repeatTime = repeatTime.concat("Wed");
+
                 }
-                if (data.get(i).getTimerType().split(" ")[1].equals("Thursday")) {
-                    if (frequencyList.size() % 2 == 0)
+                if (data.get(i).getTimerType().equals("Thursday")) {
+
+                    if (j % 2 == 0)
                         repeatTime = repeatTime.concat("Thu").concat(",");
                     else
-
                         repeatTime = repeatTime.concat("Thu");
+
                 }
-                if (data.get(i).getTimerType().split(" ")[1].equals("Friday")) {
-                    if (frequencyList.size() % 2 == 0)
+                if (data.get(i).getTimerType().equals("Friday")) {
+
+                    if (j % 2 == 0)
                         repeatTime = repeatTime.concat("Fri").concat(",");
                     else
                         repeatTime = repeatTime.concat("Fri");
+
                 }
-                if (data.get(i).getTimerType().split(" ")[1].equals("Saturday")) {
-                    if (frequencyList.size() % 2 == 0)
+                if (data.get(i).getTimerType().equals("Saturday")) {
+
+                    if (j % 2 == 0)
                         repeatTime = repeatTime.concat("Sat").concat(",");
                     else
                         repeatTime = repeatTime.concat("Sat");
                 }
+                if (data.get(i).getTimerType().equals("Sunday")) {
 
-                frequencyList.add(repeatTime);
+                    if (j % 2 == 0)
+                        repeatTime = repeatTime.concat("Sun").concat(",");
+                    else
+                        repeatTime = repeatTime.concat("Sun");
+                }
 
             }
         }
 
-        SharedPrefrnceNotarius.writeArraylist(this, "frequency_list", frequencyList);
 
     }
 
@@ -295,36 +198,8 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
     public void showFrequencyPopup() {
 
-        final Dialog dialog = new Dialog(this);
-
-        dialog.setContentView(R.layout.popup_box);
-
-        ListView listView = (ListView) dialog.findViewById(R.id.listView);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                dialog.dismiss();
-                //scheduleClient.doUnbindService();
-                //scheduleClient.doBindService();
-
-                alarmService.stopSelf();
-
-                startService(new Intent(SettingsActivity.this, AlarmService.class));
-
-                if (position == 0) {
-                    frequencyList = new ArrayList<String>();
-                    repeatTime = "Everyday";
-                    frequencyTv.setVisibility(View.VISIBLE);
-                    frequencyTv.setText(repeatTime);
-                    frequencyTv2.setVisibility(View.GONE);
-                    dataManager.removeAllFrequency();
-                }
-            }
-        });
-
-        listView.setAdapter(new PopupAdapter(this, frequencyTimes));
+        dialog.setCancelable(false);
+        listView.setAdapter(new PopupAdapter(this, tempList));
 
         Button okBtn = (Button) dialog.findViewById(R.id.dismissBtn);
 
@@ -332,18 +207,35 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                alarmService.stopSelf();
-                startService(new Intent(SettingsActivity.this, AlarmService.class));
-                //scheduleClient.doUnbindService();
-              // scheduleClient.doBindService();
 
-                if(frequencyList.size() > 0){
-                    frequencyTv.setVisibility(View.INVISIBLE);
-                    frequencyTv2.setVisibility(View.VISIBLE);
-                    frequencyTv2.setText(repeatTime);
-                }else {
+                frequencyList = dataManager.getAllFrequency();
+                ArrayList<String> tmpList = new ArrayList<String>();
+
+                for (int i = 0; i < frequencyList.size(); i++) {
+
+                    if (frequencyList.get(i).getIsSelected())
+                        tmpList.add(frequencyList.get(i).getTimerType());
+
+                }
+
+                if (tmpList.size() > 0) {
+
+                    if (tmpList.size() == 7) {
+                        frequencyTv.setVisibility(View.VISIBLE);
+                        frequencyTv2.setVisibility(View.GONE);
+                        frequencyTv.setText("Everyday");
+                    } else {
+                        frequencyTv.setVisibility(View.INVISIBLE);
+                        frequencyTv2.setVisibility(View.VISIBLE);
+                        frequencyTv2.setText(repeatTime);
+                    }
+
+                    alarmService.stopSelf();
+                    startService(new Intent(SettingsActivity.this, AlarmService.class));
+                } else {
+                    stopService(new Intent(SettingsActivity.this, AlarmService.class));
                     frequencyTv.setVisibility(View.VISIBLE);
-                    frequencyTv.setText(repeatTime);
+                    frequencyTv.setText("Never");
                     frequencyTv2.setVisibility(View.GONE);
                 }
 
@@ -357,13 +249,101 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        if (SharedPrefrnceNotarius.getBoolSharedPrefData(this, "notification_on")) {
-            toggleNotification.setChecked(true);
-            //stopService(new Intent(SettingsActivity.this, AlarmService.class));
-            //startService(new Intent(SettingsActivity.this, AlarmService.class));
+
+        repeatTime = "";
+        frequencyList = new ArrayList<>();
+
+        tempList = new ArrayList<TimerModal>();
+
+        tempList = dataManager.getAllFrequency();
+
+        listView.setAdapter(new PopupAdapter(SettingsActivity.this, tempList));
+        ArrayList<String> cloneList = new ArrayList<String>();
+
+        for (int i = 0; i < tempList.size(); i++) {
+
+            if (tempList.get(i).getIsSelected())
+                cloneList.add(tempList.get(i).getTimerType());
+
+        }
+
+        if (cloneList.size() > 0) {
+
+            for (int i = 0; i < tempList.size(); i++) {
+
+                int j = i;
+                if (j % 2 != 0) {
+                    j = j + 1;
+                }
+
+                if (tempList.get(i).getIsSelected()) {
+
+                    if (tempList.get(i).getTimerType().equals("Monday")) {
+
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Mon").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Mon");
+
+                    }
+                    if (tempList.get(i).getTimerType().equals("Tuesday")) {
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Tue").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Tue");
+                    }
+                    if (tempList.get(i).getTimerType().equals("Wednesday")) {
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Wed").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Wed");
+                    }
+                    if (tempList.get(i).getTimerType().equals("Thursday")) {
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Thu").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Thu");
+                    }
+                    if (tempList.get(i).getTimerType().equals("Friday")) {
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Fri").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Fri");
+                    }
+                    if (tempList.get(i).getTimerType().equals("Saturday")) {
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Sat").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Sat");
+                    }
+                    if (tempList.get(i).getTimerType().equals("Sunday")) {
+                        if ((j) % 2 == 0)
+                            repeatTime = repeatTime.concat("Sun").concat(",");
+                        else
+                            repeatTime = repeatTime.concat("Sun");
+                    }
+
+                }
+            }
+
+            if (cloneList.size() == 7) {
+                frequencyTv.setVisibility(View.VISIBLE);
+                frequencyTv2.setVisibility(View.GONE);
+                frequencyTv.setText("Everyday");
+            } else {
+                frequencyTv.setVisibility(View.INVISIBLE);
+                frequencyTv2.setVisibility(View.VISIBLE);
+                frequencyTv2.setText(repeatTime);
+            }
+
         } else {
-           // stopService(new Intent(SettingsActivity.this, AlarmService.class));
-            toggleNotification.setChecked(false);
+
+            if (cloneList.size() == 0) {
+                frequencyTv.setVisibility(View.VISIBLE);
+                frequencyTv.setText("Never");
+                frequencyTv2.setVisibility(View.GONE);
+                stopService(new Intent(SettingsActivity.this, AlarmService.class));
+            }
         }
 
     }
@@ -385,7 +365,25 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            timeTextView.setText(hourOfDay + ":" + minute);
+            Calendar datetime = Calendar.getInstance();
+            datetime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            datetime.set(Calendar.MINUTE, minute);
+
+            String AM_PM = null;
+            if (datetime.get(Calendar.AM_PM) == Calendar.AM)
+                AM_PM = "AM";
+            else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
+                AM_PM = "PM";
+
+            timeTextView.setText(Methods.pad(hourOfDay) + ":" + Methods.pad(minute) + " " + AM_PM);
+
+            getActivity().stopService(new Intent(getActivity(), AlarmService.class));
+
+            getActivity().startService(new Intent(getActivity(), AlarmService.class));
+
+            SharedPrefrnceNotarius.setDataInSharedPrefrence(getActivity(), "alarm_time", Methods.pad(hourOfDay) + ":" + Methods.pad(minute));
+
+            SharedPrefrnceNotarius.setDataInSharedPrefrence(getActivity(), "am_pm", AM_PM);
         }
     }
 

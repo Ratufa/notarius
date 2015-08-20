@@ -3,16 +3,13 @@ package com.munzbit.notarius.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
-import com.munzbit.notarius.R;
-import com.munzbit.notarius.datamanager.DataHelper;
-import com.munzbit.notarius.datamanager.DataManager;
-import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
+import com.munzbit.notariusdemo.R;
+import com.munzbit.notariusdemo.databases.DataManager;
 
 /**
  * Created by Ratufa.Manish on 8/4/2015.

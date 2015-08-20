@@ -16,7 +16,7 @@ import android.util.Log;
 
 import com.munzbit.notarius.alarm_manager.AlarmReceiver;
 import com.munzbit.notarius.datamanager.DataManager;
-
+import com.munzbit.notarius.modal.TimerModal;
 
 
 /**
@@ -91,7 +91,7 @@ public class AlarmTask implements Runnable {
 
         ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
 
-        ArrayList<String> dataList = dataManager.getAllFrequency();
+        ArrayList<TimerModal> dataList = dataManager.getAllFrequency();
 
         calendar = Calendar.getInstance();
 
@@ -107,17 +107,17 @@ public class AlarmTask implements Runnable {
         if (dataList.size() > 0) {
             for (int i = 0; i < dataList.size(); i++) {
 
-                if (dataList.get(i).equals("Monday"))
+                if (dataList.get(i).getTimerType().equals("Monday"))
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                else if (dataList.get(i).equals("Tuesday"))
+                else if (dataList.get(i).getTimerType().equals("Tuesday"))
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-                else if (dataList.get(i).equals("Wednesday"))
+                else if (dataList.get(i).getTimerType().equals("Wednesday"))
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-                else if (dataList.get(i).equals("Thursday"))
+                else if (dataList.get(i).getTimerType().equals("Thursday"))
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-                else if (dataList.get(i).equals("Friday"))
+                else if (dataList.get(i).getTimerType().equals("Friday"))
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-                else if (dataList.get(i).equals("Saturday"))
+                else if (dataList.get(i).getTimerType().equals("Saturday"))
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
                 Log.e("day wise alarm", "true>>"+dataList.get(i));
                 //mgrAlarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

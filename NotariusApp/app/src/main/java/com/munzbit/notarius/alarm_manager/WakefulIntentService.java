@@ -20,6 +20,7 @@
 package com.munzbit.notarius.alarm_manager;
 
 import android.app.IntentService;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
@@ -77,6 +78,17 @@ public class WakefulIntentService extends IntentService {
         lockLocal.acquire();
         super.onStart(intent, startId);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        stopSelf();
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        return super.stopService(name);
     }
 
     @Override

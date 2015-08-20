@@ -14,7 +14,7 @@ public class SharedPrefrnceNotarius {
 
 	public static final String PREFRENCE_NAME = "NotariusPreferences";
 
-	public static String getSharedPrefData(Activity activity, String key) {
+	public static String getSharedPrefData(Context activity, String key) {
 		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
 				Context.MODE_PRIVATE);
 		String value = null;
@@ -58,7 +58,7 @@ public class SharedPrefrnceNotarius {
 		return demo;
 	}
 
-	public static void setDataInSharedPrefrence(Activity activity, String key,
+	public static void setDataInSharedPrefrence(Context activity, String key,
 			String value) {
 		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
 				Context.MODE_PRIVATE);

@@ -12,11 +12,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.munzbit.notarius.R;
-import com.munzbit.notarius.datamanager.DataManager;
+import com.munzbit.notariusdemo.R;
+import com.munzbit.notariusdemo.databases.DataManager;
+import com.munzbit.notariusdemo.databases.Database;
+import com.munzbit.notariusdemo.modal.Alarm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Ratufa.Manish on 8/4/2015.
@@ -198,9 +201,14 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.settingImage:
-
-                intent = new Intent(this, SettingsActivity.class);
+                Database.init(this);
+                List<Alarm> alarms = Database.getAll();
+                Intent intent = new Intent(this, AlarmPreferencesActivity.class);
+                if (alarms.size() != 0)
+                    intent.putExtra("alarm", alarms.get(0));
                 startActivity(intent);
+                //intent = new Intent(this, SettingsActivity.class);
+                //startActivity(intent);
 
                 break;
 
