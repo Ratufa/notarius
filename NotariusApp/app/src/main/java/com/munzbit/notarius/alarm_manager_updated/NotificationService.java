@@ -30,7 +30,6 @@ public class NotificationService extends Service {
     public void onCreate() {
         super.onCreate();
         mManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-
         alarmService = new AlarmService();
     }
 

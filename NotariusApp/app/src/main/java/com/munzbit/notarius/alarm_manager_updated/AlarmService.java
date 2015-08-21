@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.munzbit.notariusdemo.databases.Database;
-import com.munzbit.notariusdemo.modal.Alarm;
+import com.munzbit.notarius.datamanager.Database;
+import com.munzbit.notarius.modal.Alarm;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
 
 public class AlarmService extends Service {
 

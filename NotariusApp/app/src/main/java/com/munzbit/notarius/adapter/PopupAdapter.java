@@ -10,7 +10,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.munzbit.notariusdemo.R;
+import com.munzbit.notarius.R;
+import com.munzbit.notarius.activity.AlarmPreferencesActivity;
+
 
 /**
  * Created by Ratufa.Manish on 8/6/2015.
@@ -70,25 +72,18 @@ public class PopupAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                // TimerModal timerModal =(TimerModal) buttonView.getTag();
-                //timerModal.setIsSelected(isChecked);
-
                 if (isChecked) {
                     ((AlarmPreferencesActivity) context).updateDays(position,true);
-                    // dataList.get(position).setIsSelected(true);
-                    //dataManager.updateFrequency(dataList.get(position).getTimerType(),"true");
+
                 }
                 if (!isChecked) {
                     ((AlarmPreferencesActivity) context).updateDays(position,false);
-                    // dataList.get(position).setIsSelected(false);
-                    //dataManager.updateFrequency(dataList.get(position).getTimerType(), "false");
+
                 }
 
 
             }
         });
-
-        //checkBox.setChecked(timerModal.getIsSelected());
 
         return view;
     }

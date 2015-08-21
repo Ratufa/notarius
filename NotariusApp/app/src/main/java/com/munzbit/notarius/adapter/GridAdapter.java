@@ -1,7 +1,5 @@
 package com.munzbit.notarius.adapter;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,19 +11,18 @@ import android.widget.TextView;
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.modal.WorkOutModal;
 
+import java.util.ArrayList;
 
 /**
  * Created by Ratufa.Manish on 8/18/2015.
  */
-public class QuickListAdapter extends BaseAdapter {
-
+public class GridAdapter extends BaseAdapter {
 
     private ArrayList<WorkOutModal> workOutData;
 
     private LayoutInflater layoutInflater;
 
-    public QuickListAdapter(Context context, ArrayList<WorkOutModal> workOutList){
-
+    public GridAdapter(Context context, ArrayList<WorkOutModal> workOutList){
         this.workOutData = workOutList;
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -49,23 +46,16 @@ public class QuickListAdapter extends BaseAdapter {
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        WorkOutModal workOutModal = workOutData.get(position);
+        View view = layoutInflater.inflate(R.layout.grid_adapter, null);
 
-        View view = layoutInflater.inflate(R.layout.quick_list_adapter, null);
+        TextView textView =(TextView) view.findViewById(R.id.workBtn);
 
-        TextView textView =(TextView) view.findViewById(R.id.workOutTitle);
-
-        TextView whiteTv =(TextView) view.findViewById(R.id.whiteIcon);
-
-        if(position==0){
-            whiteTv.setVisibility(View.GONE);
-            textView.setTextSize(22f);
+        if(workOutData.get(position).getWorkOutTitle().equals("+")){
+            textView.setTextSize(25f);
         }else{
-            textView.setTextSize(18f);
-            whiteTv.setVisibility(View.VISIBLE);
+            textView.setTextSize(15f);
         }
-        textView.setText(workOutModal.getWorkOutTitle());
-     
+        textView.setText(workOutData.get(position).getWorkOutTitle());
 
         return view;
     }

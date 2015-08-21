@@ -2,10 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.munzbit.notarius">
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,16 +22,19 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.SplashActivity">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainScreenActivity"></activity>
-
-        <activity android:name=".activity.WorkOutActivity"></activity>
+        <activity android:name=".activity.MainScreenActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.WorkOutActivity" />
 
         <activity
             android:name=".activity.WorkoutDetails"
@@ -30,20 +42,33 @@
 
         <activity android:name=".activity.WorkOutHistory" />
 
-        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.WorkOutList" />
 
-        <service android:name=".notification.ScheduleService" />
+        <activity
+            android:name=".activity.AlarmPreferencesActivity"
+            android:label="@string/app_name" />
 
         <service
-            android:name=".alarm_manager.AlarmService"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:name=".alarm_manager_updated.AlarmService"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:process="com.munzbit.notariusdemo.serviceProcess"></service>
 
-        <service android:name=".alarm_manager.NotificationService"></service>
+        <receiver android:name=".alarm_manager_updated.AlarmServiceBroadcastReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
-        <receiver android:name=".alarm_manager.AlarmReceiver"></receiver>
+        <service android:name=".alarm_manager_updated.NotificationService"></service>
 
-        <receiver android:name=".alarm_manager.ServiceReceiver"></receiver>
+        <receiver android:name=".alarm_manager_updated.AlarmAlertBroadcastReciever"></receiver>
+
+        <receiver android:name=".alarm_manager_updated.PhoneStateChangedBroadcastReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

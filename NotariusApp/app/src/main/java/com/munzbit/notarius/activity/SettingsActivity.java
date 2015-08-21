@@ -199,7 +199,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
     public void showFrequencyPopup() {
 
         dialog.setCancelable(false);
-        listView.setAdapter(new PopupAdapter(this, tempList));
+        //listView.setAdapter(new PopupAdapter(this, tempList));
 
         Button okBtn = (Button) dialog.findViewById(R.id.dismissBtn);
 
@@ -257,7 +257,7 @@ public class SettingsActivity extends FragmentActivity implements View.OnClickLi
 
         tempList = dataManager.getAllFrequency();
 
-        listView.setAdapter(new PopupAdapter(SettingsActivity.this, tempList));
+        //listView.setAdapter(new PopupAdapter(SettingsActivity.this, tempList));
         ArrayList<String> cloneList = new ArrayList<String>();
 
         for (int i = 0; i < tempList.size(); i++) {

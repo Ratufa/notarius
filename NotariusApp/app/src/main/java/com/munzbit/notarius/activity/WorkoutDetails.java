@@ -8,8 +8,9 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
-import com.munzbit.notariusdemo.R;
-import com.munzbit.notariusdemo.databases.DataManager;
+import com.munzbit.notarius.R;
+import com.munzbit.notarius.datamanager.DataManager;
+import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
 
 /**
  * Created by Ratufa.Manish on 8/4/2015.
@@ -121,6 +122,7 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
                 WorkOutActivity.workOut.finish();
                 onBackPressed();
                 break;
+
             case R.id.saveAndNew:
                 if (hours < 10 && min > 10) {
                     workDuration = "0" + hours + ":" + min;
@@ -131,7 +133,7 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
                 }else{
                     workDuration = hours + ":" + min;
                 }
-                workDate = SharedPrefrnceNotarius.getSharedPrefData(this,"work_date");
+                workDate = SharedPrefrnceNotarius.getSharedPrefData(this, "work_date");
                 dataManager.insertData(workDate, workDuration, workType, workEffort);
 
                 WorkOutActivity.workOut.finish();
@@ -179,6 +181,7 @@ public class WorkoutDetails extends Activity implements View.OnClickListener {
                 startActivity(intent1);
                 finish();
                 break;
+
         }
 
     }

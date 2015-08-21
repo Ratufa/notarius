@@ -15,7 +15,8 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.util.Log;
 
-import com.munzbit.notariusdemo.alarm_manger.AlarmAlertBroadcastReciever;
+import com.munzbit.notarius.alarm_manager_updated.AlarmAlertBroadcastReciever;
+
 
 public class Alarm implements Serializable {
 

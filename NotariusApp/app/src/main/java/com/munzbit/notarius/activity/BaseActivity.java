@@ -10,7 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 
-import com.munzbit.notariusdemo.alarm_manger.AlarmService;
+import com.munzbit.notarius.alarm_manager_updated.AlarmService;
+
 
 public abstract class BaseActivity  extends Activity implements android.view.View.OnClickListener{
 

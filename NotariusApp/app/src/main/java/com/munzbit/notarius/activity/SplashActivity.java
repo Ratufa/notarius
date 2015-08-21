@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.munzbit.notariusdemo.R;
+import com.munzbit.notarius.R;
 
 
 /**

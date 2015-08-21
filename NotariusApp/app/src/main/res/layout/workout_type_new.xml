@@ -11,25 +11,25 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/dateTv"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:gravity="center|left"
             android:paddingLeft="10dp"
-            android:id="@+id/dateTv"
             android:text="@string/choose_workout"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/editWork"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:id="@+id/editWork"
             android:src="@drawable/edit" />
 
     </LinearLayout>
@@ -45,10 +45,41 @@
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
-    <ListView
-        android:id="@+id/quickList"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.munzbit.notarius.custom_views.ExpandableGridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:numColumns="2"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.munzbit.notarius.custom_views.ExpandableListView
+                    android:id="@+id/quickList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

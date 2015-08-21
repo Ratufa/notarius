@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9FC5F8"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/set_workout"
+                android:textColor="@android:color/black"
+                android:textSize="30sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="center"
+                    android:id="@+id/seekValue"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <com.munzbit.notarius.custom_views.CircularSeekBar
+                    android:id="@+id/circularSeekBar1"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="0dp"
+                    app:circle_x_radius="100dp"
+                    app:circle_y_radius="100dp"
+                    app:circle_end_angle="270"
+                    app:max_circle="100"
+                    app:pointer_alpha_ontouch="100"
+                    app:circle_pointer_color="#0174DF"
+                    app:circle_pointer_halo_color="#880174DF"
+                    app:progress="0"
+                    app:circle_start_angle="270"
+                    app:use_custom_radii="true">
+
+                </com.munzbit.notarius.custom_views.CircularSeekBar>
+            </FrameLayout>
+
+
+
+            <!--<com.munzbit.notarius.custom_views.HoloCircleSeekBar-->
+                <!--android:id="@+id/picker"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="200dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:visibility="gone"-->
+                <!--app:max="100"-->
+                <!--app:pointer_color="@color/point_color"-->
+                <!--app:pointer_halo_color="@color/point_halo_color"-->
+                <!--app:pointer_size="20dp"-->
+                <!--app:text_color="@color/text_color"-->
+                <!--app:text_size="65sp"-->
+                <!--app:wheel_active_color="@color/wheel_active_color"-->
+                <!--app:wheel_unactive_color="@color/wheel_unactive_color" />-->
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:padding="10dp"
+                android:text="@string/effort_text"
+                android:textColor="@android:color/black"
+                android:textSize="26sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:text="Easy"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Moderate"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:text="Hard"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/seekBarEffort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/cancelBtn"
+                        android:layout_width="135dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="15dp"
+                        android:padding="10dp"
+                        android:text="Cancel"
+                        android:textAllCaps="false"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/saveAndNew"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="@string/save_new"
+                        android:textAllCaps="false"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center|right"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/saveHistoryBtn"
+                        android:layout_width="155dp"
+                        android:layout_height="50dp"
+                        android:padding="10dp"
+                        android:text="@string/save_history"
+                        android:textAllCaps="false"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/saveExitBtn"
+                        android:layout_width="155dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="@string/save_exit"
+                        android:textAllCaps="false"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

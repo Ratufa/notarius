@@ -16,10 +16,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 
-import com.munzbit.notariusdemo.R;
-import com.munzbit.notariusdemo.databases.DataManager;
-import com.munzbit.notariusdemo.databases.Database;
-import com.munzbit.notariusdemo.modal.Alarm;
+import com.munzbit.notarius.R;
+import com.munzbit.notarius.datamanager.DataManager;
+import com.munzbit.notarius.datamanager.Database;
+import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
+import com.munzbit.notarius.modal.Alarm;
+import com.munzbit.notarius.modal.WorkOutModal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,12 +55,7 @@ public class MainScreenActivity extends FragmentActivity implements
 		setContentView(R.layout.main_screen);
 		mainScreen = this;
 		dataManager = new DataManager(this);
-		try {
-			loadWords();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		olderbtn = (Button) findViewById(R.id.olderBtn);
 
 		todayBtn = (Button) findViewById(R.id.todayBtn);
@@ -79,8 +76,10 @@ public class MainScreenActivity extends FragmentActivity implements
 		ArrayList<String> arrayList = new ArrayList<String>();
 
 		final Resources resources = this.getResources();
+
 		InputStream inputStream = resources.getAssets().open(
 				"CompleteListActivities.txt");
+
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				inputStream));
 
@@ -92,11 +91,41 @@ public class MainScreenActivity extends FragmentActivity implements
 		} finally {
 			reader.close();
 		}
+
 		if (dataManager.getAllActivity().size() == 0)
 			dataManager.insertActivityIntoDB(arrayList);
 
+		if(isCheckedAvailable()==0) {
+			dataManager.updateActivity("Running", "true");
+			dataManager.updateActivity("Cycling (road)", "true");
+			dataManager.updateActivity("Weight training", "true");
+		}
+
 		Log.e("arrayList>>", arrayList.toString() + "---");
 
+	}
+
+	public int isCheckedAvailable() {
+
+		ArrayList<WorkOutModal> arrayList = new ArrayList<WorkOutModal>();
+
+		for (int i = 0; i < dataManager.getAllActivity().size(); i++) {
+			if (dataManager.getAllActivity().get(i).isSelected())
+				arrayList.add(dataManager.getAllActivity().get(i));
+		}
+
+		return arrayList.size();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		try {
+			loadWords();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -165,9 +194,9 @@ public class MainScreenActivity extends FragmentActivity implements
 		}
 
 		public void onDateSet(DatePicker view, int year, int month, int day) {
-
 			SharedPrefrnceNotarius.setDataInSharedPrefrence(getActivity(),
 					"work_date", day + "/" + (month + 1) + "/" + year);
+
 			Intent intent = new Intent(getActivity(), WorkOutActivity.class);
 			startActivity(intent);
 		}

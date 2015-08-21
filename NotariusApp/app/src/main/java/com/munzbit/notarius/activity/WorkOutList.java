@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.munzbit.notariusdemo.R;
-import com.munzbit.notariusdemo.databases.DataManager;
-import com.munzbit.notariusdemo.modal.WorkOutModal;
+import com.munzbit.notarius.R;
+import com.munzbit.notarius.adapter.WorkoutAdapter;
+import com.munzbit.notarius.datamanager.DataManager;
+import com.munzbit.notarius.modal.WorkOutModal;
 
 
 /**
@@ -23,7 +25,7 @@ public class WorkOutList extends Activity implements View.OnClickListener {
 
     private TextView doneBtn;
 
-    //private TextView counter;
+    private TextView counter;
 
     private ImageView backImage;
 
@@ -31,13 +33,11 @@ public class WorkOutList extends Activity implements View.OnClickListener {
 
     public static Activity workOut;
 
-    //private TextView dateTv;
-
     private ListView listView;
-    
+
     private DataManager dataManager;
 
-    //private ImageView editWorkOut;
+    public static int checkCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +46,9 @@ public class WorkOutList extends Activity implements View.OnClickListener {
         workOut = this;
         dataManager = new DataManager(this);
 
-        doneBtn =(TextView) findViewById(R.id.doneBtn);
+        doneBtn = (TextView) findViewById(R.id.doneBtn);
 
-        //counter =(TextView) findViewById(R.id.textCounter);
+        counter = (TextView) findViewById(R.id.textCounter);
 
         listView = (ListView) findViewById(R.id.workoutList);
 
@@ -56,65 +56,35 @@ public class WorkOutList extends Activity implements View.OnClickListener {
 
         doneBtn.setOnClickListener(this);
         backImage.setOnClickListener(this);
-        
-      
+
+
         ArrayList<WorkOutModal> workOutModalArrayList = new ArrayList<WorkOutModal>();
-        
+
         for (int i = 1; i < dataManager.getAllActivity().size(); i++) {
-        	workOutModalArrayList.add(dataManager.getAllActivity().get(i));
-		}
+            workOutModalArrayList.add(dataManager.getAllActivity().get(i));
+        }
 
-//        WorkOutModal workOutModal_1 = new WorkOutModal();
-//        workOutModal_1.setSelected(false);
-//        workOutModal_1.setWorkOutTitle("Aerobic");
-//        workOutModalArrayList.add(workOutModal_1);
-//
-//        WorkOutModal workOutModal_2 = new WorkOutModal();
-//        workOutModal_2.setSelected(false);
-//        workOutModal_2.setWorkOutTitle("Boxing");
-//        workOutModalArrayList.add(workOutModal_2);
-//
-//        WorkOutModal workOutModal_3 = new WorkOutModal();
-//        workOutModal_3.setSelected(false);
-//        workOutModal_3.setWorkOutTitle("Badminton");
-//        workOutModalArrayList.add(workOutModal_3);
-//
-//        WorkOutModal workOutModal_4 = new WorkOutModal();
-//        workOutModal_4.setSelected(false);
-//        workOutModal_4.setWorkOutTitle("Cycling");
-//        workOutModalArrayList.add(workOutModal_4);
-//
-//        WorkOutModal workOutModal_5 = new WorkOutModal();
-//        workOutModal_5.setSelected(false);
-//        workOutModal_5.setWorkOutTitle("Running");
-//        workOutModalArrayList.add(workOutModal_5);
-//
-//        WorkOutModal workOutModal_6 = new WorkOutModal();
-//        workOutModal_6.setSelected(false);
-//        workOutModal_6.setWorkOutTitle("Weights");
-//        workOutModalArrayList.add(workOutModal_6);
-
-        listView.setAdapter(new WorkoutAdapter(this,workOutModalArrayList));
+        listView.setAdapter(new WorkoutAdapter(this, workOutModalArrayList));
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.cyclingBtn:
                 intent = new Intent(this, WorkoutDetails.class);
-                intent.putExtra("work_type","cycling");
+                intent.putExtra("work_type", "cycling");
                 startActivity(intent);
                 break;
             case R.id.runningBtn:
                 intent = new Intent(this, WorkoutDetails.class);
-                intent.putExtra("work_type","running");
+                intent.putExtra("work_type", "running");
                 startActivity(intent);
                 break;
 
             case R.id.weightBtn:
                 intent = new Intent(this, WorkoutDetails.class);
-                intent.putExtra("work_type","weights");
+                intent.putExtra("work_type", "weights");
                 startActivity(intent);
                 break;
             case R.id.backImage:
@@ -124,5 +94,27 @@ public class WorkOutList extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
+    }
+
+    ArrayList<WorkOutModal> arrayList;
+
+    public boolean sizeExceeds() {
+
+        arrayList = new ArrayList<WorkOutModal>();
+
+        boolean exceeds = false;
+
+        for (int i = 0; i < dataManager.getAllActivity().size(); i++) {
+            if (dataManager.getAllActivity().get(i).isSelected())
+                arrayList.add(dataManager.getAllActivity().get(i));
+        }
+
+        if (arrayList.size() > 6) {
+            exceeds = true;
+        } else {
+            counter.setText(arrayList.size() + "/6");
+        }
+
+        return exceeds;
     }
 }

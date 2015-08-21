@@ -1,0 +1,57 @@
+All workout types
+Aerobics
+Alpine skiing
+Badminton
+Baseball
+Basketball
+Boxing
+Circuit Training
+Climbing
+Climbing stairs
+Cricket
+Cross-country skiing
+Cycling (road)
+Cycling (MTB)
+Cycling (transport)
+Dancing
+Elliptical training
+Fencing
+Fitness walking
+Football
+Golfing
+Gymnastics
+Handball
+Hiking
+Hockey
+Indoor cycling
+Kayaking
+Kite surfing
+Martial arts
+Orienteering
+Other
+Pilates
+Polo
+Riding
+Roller skiing
+Rowing
+Running
+Running (treadmill)
+Sailing
+Scuba diving
+Skateboarding
+Skating
+Snowboarding
+Snowshoeing
+Soccer
+Squash
+Surfing
+Swimming
+Table tennis
+Tennis
+Volleyball
+Walking
+Walking (treadmill)
+Weight training
+Wheelchair
+Windsurfing
+Yoga
