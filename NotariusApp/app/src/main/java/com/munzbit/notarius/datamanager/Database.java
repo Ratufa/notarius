@@ -42,10 +42,13 @@ public class Database extends SQLiteOpenHelper {
 	public static final String COLUMN_ALARM_DIFFICULTY = "alarm_difficulty";
 	public static final String COLUMN_ALARM_TONE = "alarm_tone";
 	public static final String COLUMN_ALARM_VIBRATE = "alarm_vibrate";
-	public static final String COLUMN_ALARM_NAME = "alarm_name";	
+	public static final String COLUMN_ALARM_NAME = "alarm_name";
+
 	
 	public static void init(Context context) {
+
 		if (null == instance) {
+
 			instance = new Database(context);
 		}
 	}
@@ -268,5 +271,39 @@ public class Database extends SQLiteOpenHelper {
 		}
 		cursor.close();
 		return alarms;
+	}
+
+	public static int getDayCount(){
+		Cursor cursor = Database.getCursor();
+		Alarm.Day[] repeatDays = new Alarm.Day[]{};
+		if (cursor.moveToFirst()) {
+
+			do {
+				byte[] repeatDaysBytes = cursor.getBlob(3);
+
+				ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+						repeatDaysBytes);
+				try {
+					ObjectInputStream objectInputStream = new ObjectInputStream(
+							byteArrayInputStream);
+
+					Object object = objectInputStream.readObject();
+					if (object instanceof Alarm.Day[]) {
+						repeatDays = (Alarm.Day[]) object;
+
+					}
+				} catch (StreamCorruptedException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+
+		return repeatDays.length;
 	}
 }

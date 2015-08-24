@@ -53,7 +53,7 @@ public class AlarmService extends Service {
 				
 		Database.init(getApplicationContext());
 		List<Alarm> alarms = Database.getAll();
-		
+
 		for(Alarm alarm : alarms){
 			if(alarm.getAlarmActive())
 				alarmQueue.add(alarm);
@@ -63,6 +63,7 @@ public class AlarmService extends Service {
 		}else{
 			return null;
 		}
+
 	}
 	/*
 	 * (non-Javadoc)

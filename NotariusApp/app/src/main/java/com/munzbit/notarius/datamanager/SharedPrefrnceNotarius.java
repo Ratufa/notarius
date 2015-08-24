@@ -38,6 +38,18 @@ public class SharedPrefrnceNotarius {
 		return value;
 	}
 
+	public static int getIntSharedPrefData(Context activity, String key) {
+		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
+				Context.MODE_PRIVATE);
+		int value = 0;
+
+		if (prefs != null && prefs.contains(key)) {
+			value = prefs.getInt(key, 0);
+		}
+
+		return value;
+	}
+
 	public static void writeArraylist(Context activity, String key,
 									  List<String> arryid) {
 
@@ -76,11 +88,22 @@ public class SharedPrefrnceNotarius {
 		editor.commit();
 	}
 
+	public static void setIntInSharedPrefs(Context activity, String key,
+											int value) {
+		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt(key, value);
+		editor.commit();
+	}
+
 	public static void deletePrefrenceData(Activity activity) {
 		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,
 				Context.MODE_PRIVATE);
 		prefs.edit().clear().commit();
 	}
+
+
 
 	public static void deleteKey(Activity activity,String key){
 		SharedPreferences prefs = activity.getSharedPreferences(PREFRENCE_NAME,

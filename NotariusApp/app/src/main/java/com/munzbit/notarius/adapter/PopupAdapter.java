@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.activity.AlarmPreferencesActivity;
+import com.munzbit.notarius.modal.TimerModal;
 
 
 /**
@@ -55,7 +56,7 @@ public class PopupAdapter extends BaseAdapter {
 	@Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        CharSequence timerModal = getItem(position);
+        final CharSequence timerModal = getItem(position);
 
         View view = layoutInflater.inflate(R.layout.popup_layout,null);
 
@@ -68,9 +69,13 @@ public class PopupAdapter extends BaseAdapter {
 
         checkBox.setChecked(checkedItemsList[position]);
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //TimerModal timerModal1 = (TimerModal)buttonView.getTag();
+                //timerModal1.setIsSelected(isChecked);
 
                 if (isChecked) {
                     ((AlarmPreferencesActivity) context).updateDays(position,true);
@@ -84,6 +89,7 @@ public class PopupAdapter extends BaseAdapter {
 
             }
         });
+
 
         return view;
     }

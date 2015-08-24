@@ -28,10 +28,17 @@ import com.munzbit.notarius.modal.Alarm;
 
 public class AlarmPreferencesActivity extends BaseActivity {
 
+    //private ImageButton deleteButton;
+
+    //private TextView okButton;
+
+    //private TextView cancelButton;
 
     private Alarm alarm;
 
     private MediaPlayer mediaPlayer;
+
+    //private ToggleButton toggleButton;
 
     private ListAdapter listAdapter;
 
@@ -55,7 +62,6 @@ public class AlarmPreferencesActivity extends BaseActivity {
         newAlarmTime.set(Calendar.SECOND, 0);
 
         bundle = getIntent().getExtras();
-
         if (bundle != null && bundle.containsKey("alarm")) {
             alarm = (Alarm) bundle.getSerializable("alarm");
             setMathAlarm((Alarm) bundle.getSerializable("alarm"));
@@ -78,10 +84,12 @@ public class AlarmPreferencesActivity extends BaseActivity {
                 alarmPreferenceListAdapter = (AlarmPreferenceListAdapter) getListAdapter();
 
                 final AlarmPreference alarmPreference = (AlarmPreference) alarmPreferenceListAdapter.getItem(position);
+                //AlertDialog.Builder alert;
                 v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-
                 switch (alarmPreference.getType()) {
                     case MULTIPLE_LIST:
+                        //alert = new AlertDialog.Builder(AlarmPreferencesActivity.this);
+                        //alert.setTitle(alarmPreference.getTitle());
                         CharSequence[] multiListItems = null;
                         boolean[] checkedItems = null;
 
@@ -101,7 +109,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
 
                         showFrequencyPopup(alarmPreference, multiListItems, checkedItems, alarmPreferenceListAdapter);
 
-                      break;
+                    break;
                     case TIME:
                         TimePickerDialog timePickerDialog = new TimePickerDialog(AlarmPreferencesActivity.this, new OnTimeSetListener() {
 
@@ -154,7 +162,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
 
         final Dialog dialog = new Dialog(this);
         dialog.setTitle(alarmPreference.getTitle());
-        dialog.setContentView(R.layout.popup_box);
+        dialog.setContentView(R.layout.popup_box_2);
 
         listView = (ListView) dialog.findViewById(R.id.listView);
 
@@ -199,7 +207,8 @@ public class AlarmPreferencesActivity extends BaseActivity {
                         stopMathAlarmScheduleService();
 
                     }else{
-                        SharedPrefrnceNotarius.setBoolInSharedPrefs(AlarmPreferencesActivity.this, "never", false);
+
+                        //SharedPrefrnceNotarius.setBoolInSharedPrefs(AlarmPreferencesActivity.this, "never", false);
                         alarmPreferenceListAdapter.setMathAlarm(getMathAlarm());
 
                     }
@@ -209,6 +218,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
                     Database.deleteAll();
                     alarm = null;
                     alarmPreferenceListAdapter.setMathAlarm(getMathAlarm());
+
                     stopMathAlarmScheduleService();
                 }
 
@@ -233,6 +243,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
                 Database.update(getMathAlarm());
             }
         } else {
+
             Database.deleteAll();
         }
 

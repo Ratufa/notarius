@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,7 +16,6 @@ import com.munzbit.notarius.R;
 import com.munzbit.notarius.adapter.WorkoutAdapter;
 import com.munzbit.notarius.datamanager.DataManager;
 import com.munzbit.notarius.modal.WorkOutModal;
-
 
 /**
  * Created by Ratufa.Manish on 8/4/2015.
@@ -37,7 +37,7 @@ public class WorkOutList extends Activity implements View.OnClickListener {
 
     private DataManager dataManager;
 
-    public static int checkCounter;
+    public static int checkCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,13 @@ public class WorkOutList extends Activity implements View.OnClickListener {
         doneBtn.setOnClickListener(this);
         backImage.setOnClickListener(this);
 
+        if (getIntent().getExtras() != null) {
+            WorkOutList.checkCounter = getIntent().getIntExtra("counter_size", 0);
+        }
+
+        Log.e("checkCounter11111", checkCounter + "");
+
+        counter.setText(WorkOutList.checkCounter + "/6");
 
         ArrayList<WorkOutModal> workOutModalArrayList = new ArrayList<WorkOutModal>();
 
@@ -98,23 +105,30 @@ public class WorkOutList extends Activity implements View.OnClickListener {
 
     ArrayList<WorkOutModal> arrayList;
 
-    public boolean sizeExceeds() {
+    public boolean sizeExceeds(boolean isChecked) {
 
+        Log.e("isChecked_1", isChecked + ">>");
         arrayList = new ArrayList<WorkOutModal>();
 
         boolean exceeds = false;
 
-        for (int i = 0; i < dataManager.getAllActivity().size(); i++) {
-            if (dataManager.getAllActivity().get(i).isSelected())
-                arrayList.add(dataManager.getAllActivity().get(i));
+        if (isChecked && WorkOutList.checkCounter <= 6) {
+            WorkOutList.checkCounter++;
+            Log.e("isChecked_2", isChecked + ">>");
+        } else if (!isChecked) {
+            WorkOutList.checkCounter--;
+            Log.e("isChecked_3", !isChecked + ">>");
         }
 
-        if (arrayList.size() > 6) {
+        if (WorkOutList.checkCounter > 6) {
             exceeds = true;
+            WorkOutList.checkCounter--;
+            Toast.makeText(this, "Unable to add activity.Maximum limit(6)is reached", Toast.LENGTH_SHORT).show();
         } else {
-            counter.setText(arrayList.size() + "/6");
+            exceeds = false;
         }
-
+        counter.setText(WorkOutList.checkCounter + "/6");
+        Log.e("checkCounter2222", WorkOutList.checkCounter + "");
         return exceeds;
     }
 }

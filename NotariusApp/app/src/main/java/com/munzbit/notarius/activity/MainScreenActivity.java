@@ -17,6 +17,8 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 
 import com.munzbit.notarius.R;
+import com.munzbit.notarius.alarm_Manager_24.AlarmDBHelper;
+import com.munzbit.notarius.alarm_Manager_24.AlarmModel;
 import com.munzbit.notarius.datamanager.DataManager;
 import com.munzbit.notarius.datamanager.Database;
 import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
@@ -49,12 +51,17 @@ public class MainScreenActivity extends FragmentActivity implements
 
 	private DataManager dataManager;
 
+	private AlarmDBHelper alarmDBHelper;
+
+	private List<AlarmModel> alarms;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_screen);
 		mainScreen = this;
 		dataManager = new DataManager(this);
+		alarmDBHelper = new AlarmDBHelper(this);
 
 		olderbtn = (Button) findViewById(R.id.olderBtn);
 
@@ -68,6 +75,7 @@ public class MainScreenActivity extends FragmentActivity implements
 		todayBtn.setOnClickListener(this);
 		historyBtn.setOnClickListener(this);
 		settingsImage.setOnClickListener(this);
+		alarms = alarmDBHelper.getAlarms();
 
 	}
 

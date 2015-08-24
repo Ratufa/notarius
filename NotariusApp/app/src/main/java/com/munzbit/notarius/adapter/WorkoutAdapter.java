@@ -81,6 +81,7 @@ public class WorkoutAdapter extends BaseAdapter {
         checkBox.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
                     @Override
@@ -90,15 +91,18 @@ public class WorkoutAdapter extends BaseAdapter {
                         workOutModal.setSelected(isChecked);
 
                         if (isChecked) {
-                            numberOfCheckboxesChecked++;
-                            dataManager.updateActivity(workOutModal.getWorkOutTitle(), "true");
-
+                            // numberOfCheckboxesChecked++;
+                            if (!((WorkOutList) ctx).sizeExceeds(true)) {
+                                dataManager.updateActivity(workOutModal.getWorkOutTitle(), "true");
+                            } else {
+                                checkBox.setChecked(false);
+                            }
                         }
                         if (!isChecked) {
-                            numberOfCheckboxesChecked--;
+                            //numberOfCheckboxesChecked--;
+                            ((WorkOutList) ctx).sizeExceeds(false);
                             dataManager.updateActivity(workOutModal.getWorkOutTitle(), "false");
                         }
-
                     }
                 });
                 return false;

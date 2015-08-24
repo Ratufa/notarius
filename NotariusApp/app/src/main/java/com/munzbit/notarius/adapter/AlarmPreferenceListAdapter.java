@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.munzbit.notarius.activity.AlarmPreference;
+import com.munzbit.notarius.datamanager.Database;
+import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
 import com.munzbit.notarius.modal.Alarm;
 
 
@@ -113,7 +116,7 @@ public class AlarmPreferenceListAdapter extends BaseAdapter implements Serializa
         this.alarm = alarm;
         preferences.clear();
 
-        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_REPEAT, "Repeat", alarm.getRepeatDaysString(), repeatDays, alarm.getDays(), AlarmPreference.Type.MULTIPLE_LIST));
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_REPEAT, "Repeat", alarm.getRepeatDaysString(),repeatDays , alarm.getDays(), AlarmPreference.Type.MULTIPLE_LIST));
         preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_TIME, "Time of Day", alarm.getAlarmTimeString(), null, alarm.getAlarmTime(), AlarmPreference.Type.TIME));
 
         Log.e("preferences size", preferences.size() + "---");

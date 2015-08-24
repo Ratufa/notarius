@@ -57,18 +57,8 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
         workOut = this;
         dataManager = new DataManager(this);
 
-       /* View headerView = getLayoutInflater().inflate(
-                R.layout.work_out_list_header, null);
-*/
-        //cyclingBtn = (TextView) headerView.findViewById(R.id.cyclingBtn);
-
-        //runningBtn = (TextView) headerView.findViewById(R.id.runningBtn);
-
-        //weightsBtn = (TextView) headerView.findViewById(R.id.weightBtn);
-
-        //plusBtn = (TextView) headerView.findViewById(R.id.plusBtn);
-
         listView = (ExpandableListView) findViewById(R.id.quickList);
+
 
         gridView = (ExpandableGridView) findViewById(R.id.gridView);
 
@@ -81,9 +71,22 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
 
                 if (tempList.get(position).getWorkOutTitle().equals("+")) {
                     intent = new Intent(WorkOutActivity.this, WorkOutList.class);
+                    intent.putExtra("counter_size",tempList.size()-1);
                     startActivity(intent);
                 }else{
                     intent = new Intent(WorkOutActivity.this, MainActivity.class);
+                    intent.putExtra("work_type",tempList.get(position).getWorkOutTitle());
+                    startActivity(intent);
+                }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=0) {
+                    intent = new Intent(WorkOutActivity.this, MainActivity.class);
+                    intent.putExtra("work_type",workOutModalArrayList.get(position).getWorkOutTitle());
                     startActivity(intent);
                 }
             }
@@ -94,21 +97,18 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
         dateTv.setText("Add a workout for "
                 + SharedPrefrnceNotarius.getSharedPrefData(this, "work_date"));
 
-       // cyclingBtn.setOnClickListener(this);
         editWorkOut.setOnClickListener(this);
-        //runningBtn.setOnClickListener(this);
-        //plusBtn.setOnClickListener(this);
-        //weightsBtn.setOnClickListener(this);
 
     }
 
     ArrayList<WorkOutModal> tempList;
+    ArrayList<WorkOutModal> workOutModalArrayList;
 
     @Override
     protected void onResume() {
         super.onResume();
         tempList = new ArrayList<>();
-        ArrayList<WorkOutModal> workOutModalArrayList = dataManager.getAllActivity();
+        workOutModalArrayList = dataManager.getAllActivity();
 
         for (int i = 0; i < workOutModalArrayList.size(); i++) {
 
@@ -159,13 +159,14 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
 
             case R.id.editWork:
                 intent = new Intent(this, WorkOutList.class);
-                intent.putExtra("work_type", "weights");
+                //intent.putExtra("work_type", "weights");
+                intent.putExtra("counter_size",tempList.size());
                 startActivity(intent);
                 break;
 
             case R.id.plusBtn:
                 intent = new Intent(this, WorkOutList.class);
-                intent.putExtra("work_type", "weights");
+                //intent.putExtra("work_type", "weights");
                 startActivity(intent);
                 break;
         }

@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -16,12 +17,14 @@ import android.media.RingtoneManager;
 import android.util.Log;
 
 import com.munzbit.notarius.alarm_manager_updated.AlarmAlertBroadcastReciever;
+import com.munzbit.notarius.datamanager.Database;
+import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
 
 
 public class Alarm implements Serializable {
 
     private static final long serialVersionUID = 8699489847426803789L;
-    private int id;
+    private int id=1;
     private Boolean alarmActive = true;
     private Calendar alarmTime = Calendar.getInstance();
     private Day[] days = {Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY, Day.SATURDAY, Day.SUNDAY};
@@ -31,16 +34,20 @@ public class Alarm implements Serializable {
     private Difficulty difficulty = Difficulty.EASY;
 
     //private Boolean resetDay = false;
-
+    Context context;
     public Alarm() {
 
-        //this.resetDay = reset;
+    }
+
+    public Alarm(Context context){
+        this.context = context;
+
     }
 
 
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-       // out.writeObject(getAlarmToneUri().getEncodedPath());
+      //out.writeObject(getAlarmToneUri().getEncodedPath());
     }
 
     private void readObject(java.io.ObjectInputStream in) throws IOException {
@@ -93,7 +100,7 @@ public class Alarm implements Serializable {
                 case 3:
                     return "Thursday";
                 case 4:
-                    return "Friay";
+                    return "Friday";
                 case 5:
                     return "Saturday";
                 case 6:
@@ -276,6 +283,12 @@ public class Alarm implements Serializable {
         StringBuilder daysStringBuilder = new StringBuilder();
 
         Log.e("getDays().length", getDays().length + ">>");
+        int days=0;
+        if(Database.getAll().size()!=0)
+         days = Database.getAll().get(0).getDays().length;
+        //int days = SharedPrefrnceNotarius.getIntSharedPrefData(context,"num_days");
+
+        Log.e("getDays().length", days + ">>");
 
             if (getDays().length == 0) {
                 daysStringBuilder.append("Never");
