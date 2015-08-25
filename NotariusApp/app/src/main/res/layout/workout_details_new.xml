@@ -60,6 +60,17 @@
                 </com.munzbit.notarius.custom_views.CircularSeekBar>
             </FrameLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/workoutName"
+                android:gravity="center|left"
+                android:paddingLeft="10dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_vertical"
+                />
 
 
             <!--<com.munzbit.notarius.custom_views.HoloCircleSeekBar-->

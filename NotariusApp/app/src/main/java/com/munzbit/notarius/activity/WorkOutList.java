@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.adapter.WorkoutAdapter;
-import com.munzbit.notarius.datamanager.DataManager;
+import com.munzbit.notarius.data_manager.DataManager;
 import com.munzbit.notarius.modal.WorkOutModal;
 
 /**

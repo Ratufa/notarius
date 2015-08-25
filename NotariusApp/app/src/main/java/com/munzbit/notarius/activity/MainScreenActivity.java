@@ -17,12 +17,10 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 
 import com.munzbit.notarius.R;
-import com.munzbit.notarius.alarm_Manager_24.AlarmDBHelper;
-import com.munzbit.notarius.alarm_Manager_24.AlarmModel;
-import com.munzbit.notarius.datamanager.DataManager;
-import com.munzbit.notarius.datamanager.Database;
-import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
-import com.munzbit.notarius.modal.Alarm;
+import com.munzbit.notarius.alarm_manager.AlarmDBHelper;
+import com.munzbit.notarius.alarm_manager.AlarmModel;
+import com.munzbit.notarius.data_manager.DataManager;
+import com.munzbit.notarius.data_manager.SharedPrefrnceNotarius;
 import com.munzbit.notarius.modal.WorkOutModal;
 
 import java.io.BufferedReader;
@@ -164,14 +162,31 @@ public class MainScreenActivity extends FragmentActivity implements
 			break;
 
 		case R.id.settingImage:
+			List<AlarmModel> alarms = alarmDBHelper.getAlarms();
 
-			Database.init(MainScreenActivity.this);
+
+			if(alarms!=null){
+				Log.e("alarms size>>",alarms.size()+">>");
+				Intent intent = new Intent(MainScreenActivity.this,
+						NewSettingsActivity.class);
+				intent.putExtra("_id","1");
+				startActivity(intent);
+			}else{
+				Intent intent = new Intent(MainScreenActivity.this,
+						NewSettingsActivity.class);
+				intent.putExtra("_id","-1");
+
+				startActivity(intent);
+			}
+			//List<AlarmModel> alarms = alarmDBHelper.getAlarms();
+
+			/*Database.init(MainScreenActivity.this);
 			List<Alarm> alarms = Database.getAll();
 			Intent intent = new Intent(MainScreenActivity.this,
 					AlarmPreferencesActivity.class);
 			if (alarms.size() != 0)
 				intent.putExtra("alarm", alarms.get(0));
-			startActivity(intent);
+			startActivity(intent);*/
 
 			break;
 

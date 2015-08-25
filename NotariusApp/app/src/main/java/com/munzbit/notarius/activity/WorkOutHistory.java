@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.munzbit.notarius.R;
-import com.munzbit.notarius.datamanager.DataManager;
-import com.munzbit.notarius.datamanager.Database;
-import com.munzbit.notarius.modal.Alarm;
+import com.munzbit.notarius.alarm_manager.AlarmDBHelper;
+import com.munzbit.notarius.alarm_manager.AlarmModel;
+import com.munzbit.notarius.data_manager.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +39,14 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
     private TableLayout tableLayout;
 
     private ImageView settings;
+    private AlarmDBHelper alarmDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.workout_history);
         dataManager = new DataManager(this);
+        alarmDBHelper = new AlarmDBHelper(this);
         arrayList = new ArrayList<HashMap<String, String>>();
         arrayList = dataManager.getWorkoutHistory();
 
@@ -201,13 +204,28 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.settingImage:
-                Database.init(this);
+              /*  Database.init(this);
                 List<Alarm> alarms = Database.getAll();
                 Intent intent = new Intent(this, AlarmPreferencesActivity.class);
                 if (alarms.size() != 0)
                     intent.putExtra("alarm", alarms.get(0));
-                startActivity(intent);
+                startActivity(intent);*/
 
+                List<AlarmModel> alarms = alarmDBHelper.getAlarms();
+
+                if(alarms!=null){
+                    Log.e("alarms size>>", alarms.size() + ">>");
+                    Intent intent = new Intent(WorkOutHistory.this,
+                            NewSettingsActivity.class);
+                    intent.putExtra("_id","1");
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(WorkOutHistory.this,
+                            NewSettingsActivity.class);
+                    intent.putExtra("_id","-1");
+
+                    startActivity(intent);
+                }
 
                 break;
 

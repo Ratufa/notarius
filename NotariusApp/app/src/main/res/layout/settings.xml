@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="vertical"
         android:weightSum="1">
@@ -92,8 +92,8 @@
             android:paddingTop="10dp"
             android:paddingLeft="10dp"
             android:text="Never"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"/>
+            android:textColor="#B2000000"
+            android:textSize="15sp"/>
 
 
     </LinearLayout>

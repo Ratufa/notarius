@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 
-import com.munzbit.notarius.alarm_manager_updated.AlarmService;
 
 
 public abstract class BaseActivity  extends Activity implements android.view.View.OnClickListener{
@@ -45,16 +44,4 @@ public abstract class BaseActivity  extends Activity implements android.view.Vie
 		return true;
 	}
 
-	protected void callMathAlarmScheduleService() {
-		Intent serviceIntent = new Intent(this, AlarmService.class);
-		startService(serviceIntent);
-		Log.e("service started","ok>>>");
-
-	}
-	protected void stopMathAlarmScheduleService() {
-		Intent serviceIntent = new Intent(this, AlarmService.class);
-		stopService(serviceIntent);
-		Log.e("service stopped","ok>>>");
-
-	}
 }

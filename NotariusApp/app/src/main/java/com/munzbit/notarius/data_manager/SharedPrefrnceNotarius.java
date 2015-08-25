@@ -1,9 +1,8 @@
-package com.munzbit.notarius.datamanager;
+package com.munzbit.notarius.data_manager;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 import java.util.HashSet;

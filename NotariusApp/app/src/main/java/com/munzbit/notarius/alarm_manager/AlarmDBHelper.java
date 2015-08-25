@@ -1,4 +1,4 @@
-package com.munzbit.notarius.alarm_Manager_24;
+package com.munzbit.notarius.alarm_manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import com.munzbit.notarius.alarm_Manager_24.AlarmContract.Alarm;
+import com.munzbit.notarius.alarm_manager.AlarmContract.Alarm;
 
 public class AlarmDBHelper extends SQLiteOpenHelper {
 
@@ -91,10 +91,10 @@ public class AlarmDBHelper extends SQLiteOpenHelper {
         return getWritableDatabase().update(Alarm.TABLE_NAME, values, Alarm._ID + " = ?", new String[] { String.valueOf(model.id) });
 	}
 	
-	public AlarmModel getAlarm(long id) {
+	public AlarmModel getAlarm() {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-        String select = "SELECT * FROM " + Alarm.TABLE_NAME + " WHERE " + Alarm._ID + " = " + id;
+        String select = "SELECT * FROM " + Alarm.TABLE_NAME;// + " WHERE " + Alarm._ID + " = " + id;
 		
 		Cursor c = db.rawQuery(select, null);
 		

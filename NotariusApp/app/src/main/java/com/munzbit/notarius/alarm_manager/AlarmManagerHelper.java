@@ -1,4 +1,4 @@
-package com.munzbit.notarius.alarm_Manager_24;
+package com.munzbit.notarius.alarm_manager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class AlarmManagerHelper extends BroadcastReceiver {
 
@@ -33,6 +34,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 		for (AlarmModel alarm : alarms) {
 			if (alarm.isEnabled) {
 
+				Log.e("alarm setting",alarm.isEnabled+">>");
 				PendingIntent pIntent = createPendingIntent(context, alarm);
 
 				Calendar calendar = Calendar.getInstance();
@@ -104,6 +106,7 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 	}
 
 	private static PendingIntent createPendingIntent(Context context, AlarmModel model) {
+		Log.e("pending intent creating","true");
 		Intent intent = new Intent(context, AlarmService.class);
 		intent.putExtra(ID, model.id);
 		intent.putExtra(NAME, model.name);

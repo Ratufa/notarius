@@ -44,17 +44,15 @@
 
         <activity android:name=".activity.WorkOutList" />
 
-        <activity
-            android:name=".activity.AlarmPreferencesActivity"
-            android:label="@string/app_name" />
+        <activity android:name=".activity.NewSettingsActivity"></activity>
 
         <service
-            android:name=".alarm_manager_updated.AlarmService"
+            android:name=".alarm_manager.AlarmService"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
-            android:process="com.munzbit.notariusdemo.serviceProcess"></service>
+            ></service>
 
-        <receiver android:name=".alarm_manager_updated.AlarmServiceBroadcastReciever">
+       <!-- <receiver android:name=".alarm_manager_updated.AlarmServiceBroadcastReciever">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -68,7 +66,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
     </application>
 

@@ -11,8 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.munzbit.notarius.R;
-import com.munzbit.notarius.activity.AlarmPreferencesActivity;
-import com.munzbit.notarius.modal.TimerModal;
 
 
 /**
@@ -77,14 +75,14 @@ public class PopupAdapter extends BaseAdapter {
                 //TimerModal timerModal1 = (TimerModal)buttonView.getTag();
                 //timerModal1.setIsSelected(isChecked);
 
-                if (isChecked) {
+             /*   if (isChecked) {
                     ((AlarmPreferencesActivity) context).updateDays(position,true);
 
                 }
                 if (!isChecked) {
                     ((AlarmPreferencesActivity) context).updateDays(position,false);
 
-                }
+                }*/
 
 
             }

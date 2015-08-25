@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.munzbit.notarius.R;
 
-
 /**
  * Created by Ratufa.Manish on 8/4/2015.
  */
@@ -17,7 +16,7 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        callMathAlarmScheduleService();
+        //callMathAlarmScheduleService();
 
         new Handler().postDelayed(new Runnable() {
             @Override

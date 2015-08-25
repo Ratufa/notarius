@@ -1,4 +1,4 @@
-package com.munzbit.notarius.alarm_Manager_24;
+package com.munzbit.notarius.alarm_manager;
 
 import android.provider.BaseColumns;
 

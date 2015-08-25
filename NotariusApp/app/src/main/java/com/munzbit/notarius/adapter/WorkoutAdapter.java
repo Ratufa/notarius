@@ -2,7 +2,6 @@ package com.munzbit.notarius.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,12 +11,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.munzbit.notarius.R;
-import com.munzbit.notarius.activity.WorkOutActivity;
 import com.munzbit.notarius.activity.WorkOutList;
-import com.munzbit.notarius.datamanager.DataManager;
+import com.munzbit.notarius.data_manager.DataManager;
 import com.munzbit.notarius.modal.WorkOutModal;
 
 import java.util.ArrayList;

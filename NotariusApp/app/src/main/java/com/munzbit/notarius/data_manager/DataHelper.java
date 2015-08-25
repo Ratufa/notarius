@@ -1,4 +1,4 @@
-package com.munzbit.notarius.datamanager;
+package com.munzbit.notarius.data_manager;
 
 import android.annotation.TargetApi;
 import android.content.Context;

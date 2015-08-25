@@ -9,8 +9,8 @@ import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
 import com.munzbit.notarius.R;
-import com.munzbit.notarius.datamanager.DataManager;
-import com.munzbit.notarius.datamanager.SharedPrefrnceNotarius;
+import com.munzbit.notarius.data_manager.DataManager;
+import com.munzbit.notarius.data_manager.SharedPrefrnceNotarius;
 
 /**
  * Created by Ratufa.Manish on 8/4/2015.
