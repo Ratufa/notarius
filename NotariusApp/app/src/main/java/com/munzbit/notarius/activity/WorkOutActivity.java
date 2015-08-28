@@ -72,7 +72,7 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
                     intent.putExtra("counter_size",tempList.size()-1);
                     startActivity(intent);
                 }else{
-                    intent = new Intent(WorkOutActivity.this, MainActivity.class);
+                    intent = new Intent(WorkOutActivity.this, MainActivity22.class);
                     intent.putExtra("work_type",tempList.get(position).getWorkOutTitle());
                     startActivity(intent);
                 }
@@ -83,7 +83,7 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position!=0) {
-                    intent = new Intent(WorkOutActivity.this, MainActivity.class);
+                    intent = new Intent(WorkOutActivity.this, MainActivity22.class);
                     intent.putExtra("work_type",workOutModalArrayList.get(position).getWorkOutTitle());
                     startActivity(intent);
                 }
@@ -158,7 +158,7 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
             case R.id.editWork:
                 intent = new Intent(this, WorkOutList.class);
                 //intent.putExtra("work_type", "weights");
-                intent.putExtra("counter_size",tempList.size());
+                intent.putExtra("counter_size",tempList.size()-1);
                 startActivity(intent);
                 break;
 

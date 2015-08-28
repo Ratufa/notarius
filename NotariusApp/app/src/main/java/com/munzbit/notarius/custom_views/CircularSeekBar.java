@@ -791,6 +791,7 @@ public class CircularSeekBar extends View {
 			} else {
 				return false;
 			}
+
 			break;
 		case MotionEvent.ACTION_UP:
 			mPointerHaloPaint.setAlpha(mPointerAlpha);

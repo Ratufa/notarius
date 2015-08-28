@@ -46,15 +46,11 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
 
     private CheckBox sundayCheckbox;
 
-    //private CheckBox neverCheckbox;
-
     public int day;
 
     public static int hour = 20, min = 00;
 
     public static TextView timeTextView;
-
-    //private DataManager dataManager;
 
     private Dialog dialog;
 
@@ -66,17 +62,26 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
 
     private String repeatDaysString = "", monStr = "Mon", tueStr = "Tue", wedStr = "Wed", thurs = "Thu", fri = "Fri", sat = "Sat", sun = "Sun";
 
+    private Dialog timePickerDialog;
+
+    private TimePicker timePicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        //dataManager = new DataManager(this);
         alarmDBHelper = new AlarmDBHelper(this);
 
         if (SharedPrefrnceNotarius.getSharedPrefData(this, "alarm_time") == null) {
             SharedPrefrnceNotarius.setDataInSharedPrefrence(this, "am_pm", "PM");
             SharedPrefrnceNotarius.setDataInSharedPrefrence(this, "alarm_time", Methods.pad(20) + ":" + Methods.pad(0));
         }
+
+        timePickerDialog = new Dialog(this);
+        timePickerDialog.setContentView(R.layout.time_picker);
+        timePickerDialog.setCancelable(false);
+        timePicker = (TimePicker) timePickerDialog.findViewById(R.id.timePicker);
+
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_box);
@@ -87,10 +92,8 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
         fridayCheckbox = (CheckBox) dialog.findViewById(R.id.fridayCheckbox);
         saturdayCheckbox = (CheckBox) dialog.findViewById(R.id.saturdayCheckbox);
         sundayCheckbox = (CheckBox) dialog.findViewById(R.id.sundayCheckbox);
-        //neverCheckbox = (CheckBox) dialog.findViewById(R.id.repeatCheckbox);
 
         frequencyTv = (TextView) findViewById(R.id.frequencySpinner);
-
         timeTextView = (TextView) findViewById(R.id.timeTv);
 
         timeTextView.setText(SharedPrefrnceNotarius.getSharedPrefData(this, "alarm_time") + " " + SharedPrefrnceNotarius.getSharedPrefData(this, "am_pm"));
@@ -112,7 +115,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     monStr = "";
                     NewSettingsActivity.checkBoxCounter--;
                 }
-                Log.e("mondayCheckbox>>>",monStr);
+                Log.e("mondayCheckbox>>>", monStr);
             }
         });
 
@@ -128,7 +131,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     tueStr = "";
                     NewSettingsActivity.checkBoxCounter--;
                 }
-                Log.e("tuesdayCheckbox>>>",tueStr);
+                Log.e("tuesdayCheckbox>>>", tueStr);
             }
         });
 
@@ -144,7 +147,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     wedStr = "";
                     NewSettingsActivity.checkBoxCounter--;
                 }
-                Log.e("wednesdayCheckbox>>",wedStr);
+                Log.e("wednesdayCheckbox>>", wedStr);
             }
         });
 
@@ -160,7 +163,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     thurs = "";
                     NewSettingsActivity.checkBoxCounter--;
                 }
-                Log.e("thursdayCheckbox>>>>",thurs);
+                Log.e("thursdayCheckbox>>>>", thurs);
             }
         });
 
@@ -177,7 +180,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     NewSettingsActivity.checkBoxCounter--;
                 }
 
-                Log.e("fridayCheckbox>>>>>>",fri);
+                Log.e("fridayCheckbox>>>>>>", fri);
             }
         });
 
@@ -194,7 +197,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     NewSettingsActivity.checkBoxCounter--;
                 }
 
-                Log.e("saturdayCheckbox>>>>>",sat);
+                Log.e("saturdayCheckbox>>>>>", sat);
             }
         });
 
@@ -211,7 +214,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     NewSettingsActivity.checkBoxCounter--;
                 }
 
-                Log.e("sundayCheckbox>>>>>>>",sun);
+                Log.e("sundayCheckbox>>>>>>>", sun);
             }
         });
     }
@@ -219,8 +222,8 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
     public void updateCheckBoxes() {
         String id = "0";
 
-        if (SharedPrefrnceNotarius.getIntSharedPrefData(this, "check_box_count") != 0)
-            NewSettingsActivity.checkBoxCounter = SharedPrefrnceNotarius.getIntSharedPrefData(this, "check_box_count");
+        if (SharedPrefrnceNotarius.getSharedPrefData(this, "check_box_count")!=null)
+            NewSettingsActivity.checkBoxCounter = Integer.parseInt(SharedPrefrnceNotarius.getSharedPrefData(this, "check_box_count"));
 
         if (getIntent().getExtras() != null)
             id = getIntent().getStringExtra("_id");
@@ -232,6 +235,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
             alarmDetails.timeMinute = 00;
             alarmDetails.timeHour = 20;
             alarmDetails.name = "demo";
+
 
             alarmDetails.setRepeatingDay(AlarmModel.SUNDAY, true);
             alarmDetails.setRepeatingDay(AlarmModel.MONDAY, true);
@@ -250,7 +254,10 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
 
             alarmDetails = alarmDBHelper.getAlarm();
             //neverCheckbox.setChecked(alarmDetails.repeatWeekly);
-            NewSettingsActivity.checkBoxCounter = SharedPrefrnceNotarius.getIntSharedPrefData(this, "check_box_count");
+            if (SharedPrefrnceNotarius.getSharedPrefData(this, "check_box_count") != null)
+                NewSettingsActivity.checkBoxCounter = Integer.parseInt(SharedPrefrnceNotarius.getSharedPrefData(this, "check_box_count"));
+            else
+                NewSettingsActivity.checkBoxCounter = 7;
 
             if (NewSettingsActivity.checkBoxCounter == 0) {
                 alarmDetails.isEnabled = false;
@@ -261,12 +268,16 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
             }
         }
 
+        Log.e("alarm details>>",alarmDetails.timeHour+">>>"+alarmDetails.timeMinute);
+
         if (alarmDetails.id < 0) {
             alarmDBHelper.createAlarm(alarmDetails);
-            alarmDetails.id=1;
+            alarmDetails.id = 1;
         } else {
             alarmDBHelper.updateAlarm(alarmDetails);
         }
+        timePicker.setCurrentHour(alarmDetails.timeHour);
+        timePicker.setCurrentMinute(alarmDetails.timeMinute);
 
         sundayCheckbox.setChecked(alarmDetails.getRepeatingDay(AlarmModel.SUNDAY));
         mondayCheckbox.setChecked(alarmDetails.getRepeatingDay(AlarmModel.MONDAY));
@@ -279,16 +290,16 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
         if (NewSettingsActivity.checkBoxCounter == 7) {
             frequencyTv.setText("Everyday");
         } else {
-            if(SharedPrefrnceNotarius.getSharedPrefData(this,"repeat_days")!=null){
-                repeatDaysString = SharedPrefrnceNotarius.getSharedPrefData(this,"repeat_days");
-                frequencyTv.setText(SharedPrefrnceNotarius.getSharedPrefData(this,"repeat_days"));
+            if (SharedPrefrnceNotarius.getSharedPrefData(this, "repeat_days") != null) {
+                repeatDaysString = SharedPrefrnceNotarius.getSharedPrefData(this, "repeat_days");
+                frequencyTv.setText(SharedPrefrnceNotarius.getSharedPrefData(this, "repeat_days"));
             }
         }
         AlarmManagerHelper.cancelAlarms(this);
-        if(!repeatDaysString.equals("Never"))
-        AlarmManagerHelper.setAlarms(this);
+        if (!repeatDaysString.equals("Never"))
+            AlarmManagerHelper.setAlarms(this);
 
-        timeTextView.setText(Methods.pad(alarmDetails.timeHour) + ":" + Methods.pad(alarmDetails.timeMinute)+" " + SharedPrefrnceNotarius.getSharedPrefData(this, "am_pm"));
+        timeTextView.setText(Methods.pad(alarmDetails.timeHour) + ":" + Methods.pad(alarmDetails.timeMinute) + " " + SharedPrefrnceNotarius.getSharedPrefData(this, "am_pm"));
 
     }
 
@@ -300,8 +311,9 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                 break;
 
             case R.id.timeTv:
-                DialogFragment newFragment = new TimePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "timePicker");
+                /*DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "timePicker");*/
+                showTimePopup();
                 break;
         }
     }
@@ -312,25 +324,25 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
         dialog.show();
 
         if (!mondayCheckbox.isChecked()) {
-            monStr="";
+            monStr = "";
         }
         if (!tuesdayCheckbox.isChecked()) {
-            tueStr="";
+            tueStr = "";
         }
         if (!wednesdayCheckbox.isChecked()) {
-            wedStr="";
+            wedStr = "";
         }
         if (!thursdayCheckbox.isChecked()) {
-            thurs="";
+            thurs = "";
         }
         if (!fridayCheckbox.isChecked()) {
-            fri="";
+            fri = "";
         }
         if (!saturdayCheckbox.isChecked()) {
-            sat="";
+            sat = "";
         }
         if (!sundayCheckbox.isChecked()) {
-            sun="";
+            sun = "";
         }
 
         TextView okBtn = (TextView) dialog.findViewById(R.id.okBtn);
@@ -363,13 +375,14 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                 if (!sun.equals("")) {
                     repeatDaysString = repeatDaysString.concat(sun).concat(",");
                 }
+
                 if (NewSettingsActivity.checkBoxCounter == 7) {
-                    repeatDaysString="Everyday";
-
-                }if (NewSettingsActivity.checkBoxCounter == 0) {
-                    repeatDaysString="Never";
-
+                    repeatDaysString = "Everyday";
                 }
+                if (NewSettingsActivity.checkBoxCounter == 0) {
+                    repeatDaysString = "Never";
+                }
+
                 frequencyTv.setText(repeatDaysString);
 
                 SharedPrefrnceNotarius.setDataInSharedPrefrence(NewSettingsActivity.this, "repeat_days", repeatDaysString);
@@ -382,14 +395,14 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
 
                 if (alarmDetails.id < 0) {
                     alarmDBHelper.createAlarm(alarmDetails);
-                    Log.e("db created>>>>>>>","ok");
+                    Log.e("db created>>>>>>>", "ok");
                 } else {
-                    Log.e("db updated>>>>>>>","ok");
+                    Log.e("db updated>>>>>>>", "ok");
                     alarmDBHelper.updateAlarm(alarmDetails);
                 }
 
-                if(!repeatDaysString.equals("Never"))
-                 AlarmManagerHelper.setAlarms(NewSettingsActivity.this);
+                if (!repeatDaysString.equals("Never"))
+                    AlarmManagerHelper.setAlarms(NewSettingsActivity.this);
 
             }
         });
@@ -430,6 +443,8 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
                     repeatDaysString = repeatDaysString.concat(sun).concat(",");
                 }
 
+
+
                 if (NewSettingsActivity.checkBoxCounter == 7) {
                     repeatDaysString="Everyday";
 
@@ -456,22 +471,67 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
 
     }
 
+    public void showTimePopup() {
+
+        timePickerDialog.show();
+
+        TextView okBtn = (TextView) timePickerDialog.findViewById(R.id.okPickerBtn);
+        TextView dismissBtn = (TextView) timePickerDialog.findViewById(R.id.dismissPickerBtn);
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.dismiss();
+
+                Calendar datetime = Calendar.getInstance();
+                datetime.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+                datetime.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+
+                NewSettingsActivity.hour = timePicker.getCurrentHour();
+                NewSettingsActivity.min = timePicker.getCurrentMinute();
+
+                String AM_PM = null;
+
+                if (datetime.get(Calendar.AM_PM) == Calendar.AM)
+                    AM_PM = "AM";
+                else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
+                    AM_PM = "PM";
+
+                timeTextView.setText(Methods.pad(timePicker.getCurrentHour()) + ":" + Methods.pad(timePicker.getCurrentMinute()) + " " + AM_PM);
+
+                SharedPrefrnceNotarius.setDataInSharedPrefrence(NewSettingsActivity.this, "alarm_time", Methods.pad(timePicker.getCurrentHour()) + ":" + Methods.pad(timePicker.getCurrentMinute()));
+
+                SharedPrefrnceNotarius.setDataInSharedPrefrence(NewSettingsActivity.this, "am_pm", AM_PM);
+
+                alarmDetails.timeMinute = NewSettingsActivity.min;
+                alarmDetails.timeHour = NewSettingsActivity.hour;
+                AlarmManagerHelper.cancelAlarms(NewSettingsActivity.this);
+
+                if (alarmDetails.id < 0) {
+                    alarmDBHelper.createAlarm(alarmDetails);
+                    Log.e("db created>>>>>>>", "ok");
+                } else {
+                    Log.e("db updated>>>>>>>", "ok");
+                    alarmDBHelper.updateAlarm(alarmDetails);
+                }
+
+                if (!repeatDaysString.equals("Never"))
+                    AlarmManagerHelper.setAlarms(NewSettingsActivity.this);
+            }
+        });
+
+        dismissBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        alarmDetails.timeMinute = NewSettingsActivity.min;
-        alarmDetails.timeHour = NewSettingsActivity.hour;
-        AlarmManagerHelper.cancelAlarms(NewSettingsActivity.this);
 
-        if (alarmDetails.id < 0) {
-            alarmDBHelper.createAlarm(alarmDetails);
-            Log.e("db created>>>>>>>","ok");
-        } else {
-            Log.e("db updated>>>>>>>","ok");
-            alarmDBHelper.updateAlarm(alarmDetails);
-        }
-        if(!repeatDaysString.equals("Never"))
-        AlarmManagerHelper.setAlarms(NewSettingsActivity.this);
     }
 
     public static class TimePickerFragment extends DialogFragment
@@ -521,7 +581,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
 
     private void updateModelFromLayout() {
 
-        SharedPrefrnceNotarius.setIntInSharedPrefs(this, "check_box_count", NewSettingsActivity.checkBoxCounter);
+        SharedPrefrnceNotarius.setDataInSharedPrefrence(this, "check_box_count", String.valueOf(NewSettingsActivity.checkBoxCounter));
 
         alarmDetails.timeMinute = NewSettingsActivity.min;
         alarmDetails.timeHour = NewSettingsActivity.hour;
@@ -535,7 +595,7 @@ public class NewSettingsActivity extends FragmentActivity implements View.OnClic
         alarmDetails.setRepeatingDay(AlarmModel.FRIDAY, fridayCheckbox.isChecked());
         alarmDetails.setRepeatingDay(AlarmModel.SATURDAY, saturdayCheckbox.isChecked());
 
-        if (SharedPrefrnceNotarius.getIntSharedPrefData(this, "check_box_count") == 0) {
+        if (Integer.parseInt(SharedPrefrnceNotarius.getSharedPrefData(this, "check_box_count")) == 0) {
             alarmDetails.isEnabled = false;
             alarmDetails.repeatWeekly = false;
             //Set the alarms

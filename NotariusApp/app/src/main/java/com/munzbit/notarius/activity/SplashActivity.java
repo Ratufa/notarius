@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.munzbit.notarius.R;
+import com.munzbit.notarius.alarm_manager.AlarmManagerHelper;
 
 /**
  * Created by Ratufa.Manish on 8/4/2015.
@@ -31,5 +32,11 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        AlarmManagerHelper.setAlarms(this);
     }
 }

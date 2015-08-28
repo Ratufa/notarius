@@ -18,7 +18,9 @@ import android.widget.ImageView;
 
 import com.munzbit.notarius.R;
 import com.munzbit.notarius.alarm_manager.AlarmDBHelper;
+import com.munzbit.notarius.alarm_manager.AlarmManagerHelper;
 import com.munzbit.notarius.alarm_manager.AlarmModel;
+import com.munzbit.notarius.alarm_manager.AlarmService;
 import com.munzbit.notarius.data_manager.DataManager;
 import com.munzbit.notarius.data_manager.SharedPrefrnceNotarius;
 import com.munzbit.notarius.modal.WorkOutModal;
@@ -69,6 +71,7 @@ public class MainScreenActivity extends FragmentActivity implements
 
 		settingsImage = (ImageView) findViewById(R.id.settingImage);
 
+
 		olderbtn.setOnClickListener(this);
 		todayBtn.setOnClickListener(this);
 		historyBtn.setOnClickListener(this);
@@ -111,6 +114,12 @@ public class MainScreenActivity extends FragmentActivity implements
 
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		//stopService(new Intent(this, AlarmService.class));
+	}
+
 	public int isCheckedAvailable() {
 
 		ArrayList<WorkOutModal> arrayList = new ArrayList<WorkOutModal>();
@@ -121,6 +130,12 @@ public class MainScreenActivity extends FragmentActivity implements
 		}
 
 		return arrayList.size();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		//AlarmManagerHelper.cancelAlarms(this);
 	}
 
 	@Override
@@ -164,7 +179,6 @@ public class MainScreenActivity extends FragmentActivity implements
 		case R.id.settingImage:
 			List<AlarmModel> alarms = alarmDBHelper.getAlarms();
 
-
 			if(alarms!=null){
 				Log.e("alarms size>>",alarms.size()+">>");
 				Intent intent = new Intent(MainScreenActivity.this,
@@ -175,7 +189,6 @@ public class MainScreenActivity extends FragmentActivity implements
 				Intent intent = new Intent(MainScreenActivity.this,
 						NewSettingsActivity.class);
 				intent.putExtra("_id","-1");
-
 				startActivity(intent);
 			}
 			//List<AlarmModel> alarms = alarmDBHelper.getAlarms();

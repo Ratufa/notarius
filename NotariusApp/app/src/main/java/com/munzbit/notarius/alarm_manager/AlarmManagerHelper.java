@@ -83,9 +83,9 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
 			alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
-		} else {
+		} else
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
-		}
+
 	}
 	
 	public static void cancelAlarms(Context context) {
@@ -97,7 +97,6 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 			for (AlarmModel alarm : alarms) {
 				if (alarm.isEnabled) {
 					PendingIntent pIntent = createPendingIntent(context, alarm);
-	
 					AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 					alarmManager.cancel(pIntent);
 				}

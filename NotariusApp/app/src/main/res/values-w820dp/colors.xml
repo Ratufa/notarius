@@ -5,4 +5,20 @@
     <color name="point_halo_color">#607D8B</color>
     <color name="wheel_unactive_color">#BDBDBD</color>
     <color name="wheel_active_color">#4CAF50</color>
+    <color name="progress_gray">#FFD8D8D8</color>
+    <color name="progress_gray_dark">#FF383838</color>
+
+    <color name="red">#ffe2231a</color>
+    <color name="dark_red">#ff510209</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="pink">#FFC0CB</color>
+    <color name="purple">#800080</color>
+    <color name="green">#008000</color>
+    <color name="blue">#0000FF</color>
+    <color name="cyan">#00FFFF</color>
+    <color name="gold">#FFD700</color>
+    <color name="indigo">#4B0082</color>
+    <color name="violet">#EE82EE</color>
+    <color name="sky_blue">#87CEEB</color>
+
 </resources>

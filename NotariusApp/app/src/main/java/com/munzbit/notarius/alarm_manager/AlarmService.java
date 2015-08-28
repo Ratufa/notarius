@@ -7,11 +7,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.munzbit.notarius.R;
 import com.munzbit.notarius.activity.MainScreenActivity;
 
 public class AlarmService extends Service {
 
 	public static String TAG = AlarmService.class.getSimpleName();
+
 	private static final int NOTIFICATION = 123;
 	// Name of an intent extra we can use to identify if this service was started to create a notification
 	public static final String INTENT_NOTIFY = "com.notarius.service.INTENT_NOTIFY";
@@ -25,23 +27,27 @@ public class AlarmService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+
 		mManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-		/*Intent alarmIntent = new Intent(getBaseContext(), AlarmScreen.class);
-		alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		alarmIntent.putExtras(intent);
-		getApplication().startActivity(alarmIntent);*/
 
 		notification();
 		
 		AlarmManagerHelper.setAlarms(this);
 		
-		return super.onStartCommand(intent, flags, startId);
+		return START_NOT_STICKY;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		//mManager.cancel(NOTIFICATION);
 	}
 
 	public void notification(){
+
 		CharSequence title = "Notarius";
 		// This is the icon to use on the notification
-		int icon = android.R.drawable.ic_dialog_alert;
+		int icon = R.drawable.ic_launcher;
 		// This is the scrolling text of the notification
 		CharSequence text = "Register todays training";
 		// What time to show on the notification
@@ -60,6 +66,8 @@ public class AlarmService extends Service {
 
 		// Send the notification to the system.
 		mManager.notify(NOTIFICATION, notification);
+		stopSelf();
+
 	}
 	
 }
