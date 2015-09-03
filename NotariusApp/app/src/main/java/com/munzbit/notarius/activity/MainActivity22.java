@@ -192,7 +192,6 @@ public class MainActivity22 extends Activity implements View.OnClickListener {
             case R.id.saveHistoryBtn:
                 workDate = SharedPrefrnceNotarius.getSharedPrefData(this, "work_date");
                 dataManager.insertData(workDate, workOutDuration, workType, workEffort);
-
                 WorkOutActivity.workOut.finish();
                 MainScreenActivity.mainScreen.finish();
                 Intent intent1 = new Intent(this, WorkOutHistory.class);

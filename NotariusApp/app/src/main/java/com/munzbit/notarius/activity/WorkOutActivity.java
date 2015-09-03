@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -47,6 +48,8 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
 
     private DataManager dataManager;
 
+    private int count = 0;
+
     @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +72,11 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
 
                 if (tempList.get(position).getWorkOutTitle().equals("+")) {
                     intent = new Intent(WorkOutActivity.this, WorkOutList.class);
-                    intent.putExtra("counter_size",tempList.size()-1);
+                    intent.putExtra("counter_size", count);
                     startActivity(intent);
-                }else{
-                    intent = new Intent(WorkOutActivity.this, MainActivity22.class);
-                    intent.putExtra("work_type",tempList.get(position).getWorkOutTitle());
+                } else {
+                    intent = new Intent(WorkOutActivity.this, DurationSetterActivity.class);
+                    intent.putExtra("work_type", tempList.get(position).getWorkOutTitle());
                     startActivity(intent);
                 }
             }
@@ -82,9 +85,9 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position!=0) {
-                    intent = new Intent(WorkOutActivity.this, MainActivity22.class);
-                    intent.putExtra("work_type",workOutModalArrayList.get(position).getWorkOutTitle());
+                if (position != 0) {
+                    intent = new Intent(WorkOutActivity.this, DurationSetterActivity.class);
+                    intent.putExtra("work_type", workOutModalArrayList.get(position).getWorkOutTitle());
                     startActivity(intent);
                 }
             }
@@ -113,7 +116,7 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
             if (workOutModalArrayList.get(i).isSelected())
                 tempList.add(workOutModalArrayList.get(i));
         }
-
+        count = tempList.size();
         if (tempList.size() < 6) {
             WorkOutModal workOutModal = new WorkOutModal();
             workOutModal.setWorkOutTitle("+");
@@ -157,8 +160,7 @@ public class WorkOutActivity extends Activity implements View.OnClickListener {
 
             case R.id.editWork:
                 intent = new Intent(this, WorkOutList.class);
-                //intent.putExtra("work_type", "weights");
-                intent.putExtra("counter_size",tempList.size()-1);
+                intent.putExtra("counter_size", count);
                 startActivity(intent);
                 break;
 

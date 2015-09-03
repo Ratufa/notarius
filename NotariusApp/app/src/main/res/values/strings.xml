@@ -35,4 +35,24 @@
     <string name="details_saturday">Saturday</string>
     <string name="details_alarm_tone">Alarm Tone</string>
     <string name="details_alarm_tone_default">Select an alarm tone</string>
+
+    <string-array name="custom_colors">
+        <item name="red">#ffe2231a</item>
+        <item name="dark_red">#ff510209</item>
+        <item name="yellow">#FFFF00</item>
+        <item name="pink">#FFC0CB</item>
+        <item name="purple">#800080</item>
+        <item name="green">#008000</item>
+        <item name="blue">#0000FF</item>
+        <item name="cyan">#00FFFF</item>
+        <item name="gold">#FFD700</item>
+        <item name="indigo">#4B0082</item>
+        <item name="violet">#EE82EE</item>
+        <item name="sky_blue">#87CEEB</item>
+        <item name="disabled_gray">#FF999999</item>
+        <item name="orange">#FFE46715</item>
+        <item name="seekbar_item">#FF9FDC00</item>
+        <item name="error_clock">#FFE40000</item>
+    </string-array>
+
 </resources>

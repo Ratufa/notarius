@@ -17,8 +17,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
         android:name=".activity.MyAppliction"
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
@@ -36,6 +36,7 @@
         <activity android:name=".activity.MainScreenActivity" />
         <activity android:name=".activity.MainActivity22" />
         <activity android:name=".activity.WorkOutActivity" />
+        <activity android:name=".activity.DurationSetterActivity"></activity>
 
         <activity
             android:name=".activity.WorkoutDetails"
@@ -50,16 +51,15 @@
         <service
             android:name=".alarm_manager.AlarmService"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name"
-            ></service>
+            android:label="@string/app_name"></service>
 
-       <!-- <receiver android:name=".alarm_manager_updated.AlarmServiceBroadcastReciever">
+      <!--  <receiver android:name=".alarm_manager.ServiceBroadCastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
-        <service android:name=".alarm_manager_updated.NotificationService"></service>
+       <!-- <service android:name=".alarm_manager_updated.NotificationService"></service>
 
         <receiver android:name=".alarm_manager_updated.AlarmAlertBroadcastReciever"></receiver>
 
@@ -67,7 +67,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
-        </receiver>-->
+        </receiver>
+        -->
 
     </application>
 

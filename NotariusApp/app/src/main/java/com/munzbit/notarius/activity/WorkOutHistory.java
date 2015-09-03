@@ -204,17 +204,10 @@ public class WorkOutHistory extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.settingImage:
-              /*  Database.init(this);
-                List<Alarm> alarms = Database.getAll();
-                Intent intent = new Intent(this, AlarmPreferencesActivity.class);
-                if (alarms.size() != 0)
-                    intent.putExtra("alarm", alarms.get(0));
-                startActivity(intent);*/
 
                 List<AlarmModel> alarms = alarmDBHelper.getAlarms();
 
                 if(alarms!=null){
-                    Log.e("alarms size>>", alarms.size() + ">>");
                     Intent intent = new Intent(WorkOutHistory.this,
                             NewSettingsActivity.class);
                     intent.putExtra("_id","1");

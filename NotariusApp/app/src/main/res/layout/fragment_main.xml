@@ -1,0 +1,155 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.munzbit.notarius.activity.DurationSetter2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.munzbit.notarius.duration_setter.ClockView
+            android:id="@+id/min_depart_time_clock_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/workoutName"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center|left"
+            android:padding="10dp"
+            android:text="@string/effort_text"
+            android:textColor="@android:color/black"
+            android:textSize="26sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text="Easy"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Moderate"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="Hard"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBarEffort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:gravity="center|left"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="135dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:padding="10dp"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/saveAndNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:text="@string/save_new"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:gravity="center|right"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/saveHistoryBtn"
+                    android:layout_width="155dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:text="@string/save_history"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/saveExitBtn"
+                    android:layout_width="155dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:text="@string/save_exit"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

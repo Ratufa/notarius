@@ -110,14 +110,13 @@ public class MainScreenActivity extends FragmentActivity implements
 			dataManager.updateActivity("Weight training", "true");
 		}
 
-		Log.e("arrayList>>", arrayList.toString() + "---");
 
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		//stopService(new Intent(this, AlarmService.class));
+
 	}
 
 	public int isCheckedAvailable() {
@@ -135,7 +134,6 @@ public class MainScreenActivity extends FragmentActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		//AlarmManagerHelper.cancelAlarms(this);
 	}
 
 	@Override
@@ -180,7 +178,7 @@ public class MainScreenActivity extends FragmentActivity implements
 			List<AlarmModel> alarms = alarmDBHelper.getAlarms();
 
 			if(alarms!=null){
-				Log.e("alarms size>>",alarms.size()+">>");
+
 				Intent intent = new Intent(MainScreenActivity.this,
 						NewSettingsActivity.class);
 				intent.putExtra("_id","1");
@@ -191,15 +189,6 @@ public class MainScreenActivity extends FragmentActivity implements
 				intent.putExtra("_id","-1");
 				startActivity(intent);
 			}
-			//List<AlarmModel> alarms = alarmDBHelper.getAlarms();
-
-			/*Database.init(MainScreenActivity.this);
-			List<Alarm> alarms = Database.getAll();
-			Intent intent = new Intent(MainScreenActivity.this,
-					AlarmPreferencesActivity.class);
-			if (alarms.size() != 0)
-				intent.putExtra("alarm", alarms.get(0));
-			startActivity(intent);*/
 
 			break;
 

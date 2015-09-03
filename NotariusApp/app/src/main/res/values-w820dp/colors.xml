@@ -21,4 +21,8 @@
     <color name="violet">#EE82EE</color>
     <color name="sky_blue">#87CEEB</color>
 
+    <color name="disabled_gray">#FF999999</color>
+    <color name="orange">#FFE46715</color>
+    <color name="seekbar_color">#FF9FDC00</color>
+    <color name="error_clock">#FFE40000</color>
 </resources>

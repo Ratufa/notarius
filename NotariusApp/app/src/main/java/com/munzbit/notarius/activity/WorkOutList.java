@@ -61,8 +61,6 @@ public class WorkOutList extends Activity implements View.OnClickListener {
             WorkOutList.checkCounter = getIntent().getIntExtra("counter_size", 0);
         }
 
-        Log.e("checkCounter11111", checkCounter + "");
-
         counter.setText(WorkOutList.checkCounter + "/6");
 
         ArrayList<WorkOutModal> workOutModalArrayList = new ArrayList<WorkOutModal>();
@@ -107,17 +105,16 @@ public class WorkOutList extends Activity implements View.OnClickListener {
 
     public boolean sizeExceeds(boolean isChecked) {
 
-        Log.e("isChecked_1", isChecked + ">>");
         arrayList = new ArrayList<WorkOutModal>();
 
         boolean exceeds = false;
 
         if (isChecked && WorkOutList.checkCounter <= 6) {
             WorkOutList.checkCounter++;
-            Log.e("isChecked_2", isChecked + ">>");
+
         } else if (!isChecked) {
             WorkOutList.checkCounter--;
-            Log.e("isChecked_3", !isChecked + ">>");
+
         }
 
         if (WorkOutList.checkCounter > 6) {
@@ -128,7 +125,7 @@ public class WorkOutList extends Activity implements View.OnClickListener {
             exceeds = false;
         }
         counter.setText(WorkOutList.checkCounter + "/6");
-        Log.e("checkCounter2222", WorkOutList.checkCounter + "");
+       
         return exceeds;
     }
 }
